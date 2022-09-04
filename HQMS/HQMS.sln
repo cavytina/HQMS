@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32630.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS", "HQMS.csproj", "{8F34C675-E6D0-4C3F-9AE5-67CDA536631D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Kernel", "..\HQMS.Frame.Kernel\HQMS.Frame.Kernel.csproj", "{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.ModuleLauncher", "..\HQMS.Frame.ModuleLauncher\HQMS.Frame.ModuleLauncher.csproj", "{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Control.Login", "..\HQMS.Frame.Control.Login\HQMS.Frame.Control.Login.csproj", "{FA008811-8930-43C8-92A5-1A88B20066DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.ServiceLauncher", "..\HQMS.Frame.ServiceLauncher\HQMS.Frame.ServiceLauncher.csproj", "{50288CED-72ED-4A21-9254-9E4031227D81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HQMSDB", "HQMSDB", "{C2432BEC-5D98-430C-8D6C-A8DA4C85085E}"
+	ProjectSection(SolutionItems) = preProject
+		..\HQMSDB\System_DataBaseSetting.sql = ..\HQMSDB\System_DataBaseSetting.sql
+		..\HQMSDB\System_ModuleSetting.sql = ..\HQMSDB\System_ModuleSetting.sql
+		..\HQMSDB\System_PathSetting.sql = ..\HQMSDB\System_PathSetting.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F34C675-E6D0-4C3F-9AE5-67CDA536631D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F34C675-E6D0-4C3F-9AE5-67CDA536631D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F34C675-E6D0-4C3F-9AE5-67CDA536631D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F34C675-E6D0-4C3F-9AE5-67CDA536631D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50288CED-72ED-4A21-9254-9E4031227D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50288CED-72ED-4A21-9254-9E4031227D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50288CED-72ED-4A21-9254-9E4031227D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50288CED-72ED-4A21-9254-9E4031227D81}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7562E1C7-B174-47EE-8CB2-743608F26EB8}
+	EndGlobalSection
+EndGlobal
