@@ -18,7 +18,7 @@ namespace HQMS.Frame.Kernel.Services
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
 
-            baglDBConnectionString = environmentMonitor.DataBaseSetting[1].Content;
+            baglDBConnectionString = environmentMonitor.DataBaseSetting["BAGLDB"].Content;
             base.DBConnection = new SqlConnection(baglDBConnectionString);
         }
     }

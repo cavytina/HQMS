@@ -8,23 +8,29 @@ using HQMS.Frame.Kernel.Services;
 
 namespace HQMS.Frame.Kernel.Core
 {
-    public class DataBaseCollecter : ICollection<DataBaseKind>
+    public class DataBaseCollecter : IList<DataBaseKind>
     {
-        ICollection<DataBaseKind> DataBases = new List<DataBaseKind>();
+        IList<DataBaseKind> DataBases = new List<DataBaseKind>();
 
         public bool IsReadOnly => DataBases.IsReadOnly;
 
         public int Count => DataBases.Count;
 
-        public IDataBaseController this[string nameIndex]
-        {
-            set { DataBases.FirstOrDefault(x => x.Name == nameIndex).DataBaseController = value; }
-            get { return DataBases.FirstOrDefault(x => x.Name == nameIndex).DataBaseController; }
-        }
-
         public DataBaseKind this[int index]
         {
-            get { return DataBases.ElementAtOrDefault(index); }
+            get => DataBases[index];
+            set => DataBases[index] = value;
+        }
+
+        public DataBaseKind this[string nameIndex]
+        {
+            set { DataBases[DataBases.IndexOf(DataBases.FirstOrDefault(x => x.Name == nameIndex))] = value; }
+            get { return DataBases[DataBases.IndexOf(DataBases.FirstOrDefault(x => x.Name == nameIndex))]; }
+        }
+
+        public IDataBaseController GetDataBaseController(string nameArgs)
+        {
+            return DataBases.FirstOrDefault(x => x.Name == nameArgs).DataBaseController;
         }
 
         public void Add(DataBaseKind item)
@@ -65,6 +71,21 @@ namespace HQMS.Frame.Kernel.Core
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)DataBases).GetEnumerator();
+        }
+
+        public int IndexOf(DataBaseKind item)
+        {
+            return DataBases.IndexOf(item);
+        }
+
+        public void Insert(int index, DataBaseKind item)
+        {
+            DataBases.Insert(index, item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            DataBases.RemoveAt(index);
         }
     }
 }

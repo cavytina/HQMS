@@ -7,58 +7,84 @@ using System.Threading.Tasks;
 
 namespace HQMS.Frame.Kernel.Core
 {
-    public class PathCollecter : ICollection<BaseKind>
+    public class PathCollecter : IList<BaseKind>
     {
-        ICollection<BaseKind> AppPaths = new List<BaseKind>();
+        IList<BaseKind> Paths = new List<BaseKind>();
 
-        public bool IsReadOnly => AppPaths.IsReadOnly;
+        public bool IsReadOnly => Paths.IsReadOnly;
 
-        public int Count => AppPaths.Count;
+        public int Count => Paths.Count;
 
-        public string this[string nameIndex]
+        public BaseKind this[int index]
         {
-            set { AppPaths.FirstOrDefault(x => x.Name == nameIndex).Content = value; }
-            get { return AppPaths.FirstOrDefault(x => x.Name == nameIndex).Content; }
+            get => Paths[index];
+            set => Paths[index] = value;
+        }
+
+        public BaseKind this[string nameIndex]
+        {
+            set { Paths[Paths.IndexOf(Paths.FirstOrDefault(x => x.Name == nameIndex))] = value; }
+            get { return Paths[Paths.IndexOf(Paths.FirstOrDefault(x => x.Name == nameIndex))]; }
+        }
+
+        public string GetContent(string nameArgs)
+        {
+            return Paths.FirstOrDefault(x => x.Name == nameArgs).Content;
         }
 
         public void Add(BaseKind item)
         {
-            AppPaths.Add(item);
+            Paths.Add(item);
         }
 
         public void Clear()
         {
-            AppPaths.Clear();
+            Paths.Clear();
         }
 
         public bool Contains(string nameItem)
         {
-            return AppPaths.FirstOrDefault(x => x.Name == nameItem) != null ? true : false;
+            return Paths.FirstOrDefault(x => x.Name == nameItem) != null ? true : false;
         }
 
         public bool Contains(BaseKind Item)
         {
-            return AppPaths.Contains(Item);
+            return Paths.Contains(Item);
         }
 
         public void CopyTo(BaseKind[] array, int arrayIndex)
         {
-            AppPaths.CopyTo(array, arrayIndex);
+            Paths.CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<BaseKind> GetEnumerator()
         {
-            return AppPaths.GetEnumerator();
+            return Paths.GetEnumerator();
         }
 
         public bool Remove(BaseKind item)
         {
-            return AppPaths.Remove(item);
+            return Paths.Remove(item);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)AppPaths).GetEnumerator();
+            return ((IEnumerable)Paths).GetEnumerator();
+        }
+
+        public int IndexOf(BaseKind item)
+        {
+            return Paths.IndexOf(item);
+        }
+
+        public void Insert(int index, BaseKind item)
+        {
+            Paths.Insert(index, item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            Paths.RemoveAt(index);
         }
     }
 }

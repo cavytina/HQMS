@@ -9,7 +9,7 @@ using HQMS.Frame.Kernel.Environment;
 
 namespace HQMS.Frame.Kernel.Services
 {
-    public class DataBaseLauncher : IDataBaseLauncher
+    public class DataBaseManager : IDataBaseManager
     {
         IContainerProvider containerProvider;
         IEnvironmentMonitor environmentMonitor;
@@ -23,7 +23,7 @@ namespace HQMS.Frame.Kernel.Services
         string sqlString;
         List<BaseKind> dataBaseHub;
 
-        public DataBaseLauncher(IContainerProvider containerProviderArgs)
+        public DataBaseManager(IContainerProvider containerProviderArgs)
         {
             containerProvider = containerProviderArgs;
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
@@ -32,7 +32,6 @@ namespace HQMS.Frame.Kernel.Services
 
         public void Initialize()
         {
-            InnerInitialize();
             InnerLoad();
 
             sqlString = "SELECT Code,Name,Content,Description,Rank,Flag FROM System_DataBaseSetting";
@@ -45,9 +44,9 @@ namespace HQMS.Frame.Kernel.Services
             baglDBConnectionString = cipherController.Decrypt(baglDBInfo.FirstOrDefault().Content);
         }
 
-        private void InnerInitialize()
+        private void InnerLoad()
         {
-            sqliteConnectionString = "Data Source= " + environmentMonitor.AppPathSetting["NativeDataBaseFilePath"];
+            sqliteConnectionString = "Data Source= " + environmentMonitor.PathSetting["NativeDataBaseFilePath"].Content;
 
             if (!environmentMonitor.DataBaseSetting.Contains("Native"))
                 environmentMonitor.DataBaseSetting.Add(new DataBaseKind
@@ -59,13 +58,12 @@ namespace HQMS.Frame.Kernel.Services
                     Rank = 1,
                     Flag = true
                 });
-        }
+            else
+                environmentMonitor.DataBaseSetting["Native"].Content = sqliteConnectionString;
 
-        private void InnerLoad()
-        {
             nativeBaseController = containerProvider.Resolve<IDataBaseController>("Native");
 
-            environmentMonitor.DataBaseSetting["Native"] = nativeBaseController;
+            environmentMonitor.DataBaseSetting["Native"].DataBaseController = nativeBaseController;
         }
 
         public void Load()
@@ -82,7 +80,7 @@ namespace HQMS.Frame.Kernel.Services
                 });
 
             baglDBController= containerProvider.Resolve<IDataBaseController>("BAGLDB");
-            environmentMonitor.DataBaseSetting["BAGLDB"] = baglDBController;
+            environmentMonitor.DataBaseSetting["BAGLDB"].DataBaseController = baglDBController;
         }
 
         public void Save()

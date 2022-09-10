@@ -17,9 +17,9 @@ CREATE TABLE System_ModuleSetting
 INSERT INTO System_ModuleSetting (Code,Name,Content,Description,Rank,Flag)
 VALUES ('01','ModuleLauncherModule','HQMS.Frame.ModuleLauncher.dll',
         'HQMS.Frame.ModuleLauncher.ModuleLauncherModule, HQMS.Frame.ModuleLauncher, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
-        	1,1);
+        	1,True);
 
 INSERT INTO System_ModuleSetting (Code,Name,Content,Description,Rank,Flag)
 VALUES ('02','ServiceLauncherModule','HQMS.Frame.ServiceLauncher.dll',
         'HQMS.Frame.ServiceLauncher.ServiceLauncherModule, HQMS.Frame.ServiceLauncher, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
-        	2,1);
+        	2,True);

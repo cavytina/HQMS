@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Prism.Modularity;
 using Prism.Ioc;
 using HQMS.Frame.Kernel.Core;
+using HQMS.Frame.Kernel.Environment;
 using HQMS.Frame.Kernel.Services;
 
 namespace HQMS.Frame.Kernel.Extension
@@ -13,6 +14,7 @@ namespace HQMS.Frame.Kernel.Extension
     public class FrameModuleCatalogExtension : ModuleCatalog
     {
         IDataBaseController nativeBaseController;
+        IEnvironmentMonitor environmentMonitor;
         IModuleCatalog moduleCatalog;
 
         string sqlString;
@@ -20,8 +22,9 @@ namespace HQMS.Frame.Kernel.Extension
 
         public FrameModuleCatalogExtension(IContainerProvider containerProviderArgs)
         {
-            nativeBaseController = containerProviderArgs.Resolve<IDataBaseController>("Native");
-            moduleCatalog= containerProviderArgs.Resolve<IModuleCatalog>();
+            environmentMonitor= containerProviderArgs.Resolve<IEnvironmentMonitor>();
+            nativeBaseController = environmentMonitor.DataBaseSetting.GetDataBaseController("Native");
+            moduleCatalog = containerProviderArgs.Resolve<IModuleCatalog>();
         }
 
         protected override void InnerLoad()

@@ -17,7 +17,7 @@ namespace HQMS.Frame.Kernel.Core
         }
 
         public DataBaseKind(string codeArgs, string nameArgs, string contentArgs, string descriptionArgs,
-                                string categoryCodeArgs, string categoryNameArgs, int rankArgs, bool flagArgs,IDataBaseController dataBaseControllerArgs)
+                                int rankArgs, bool flagArgs,IDataBaseController dataBaseControllerArgs)
                     : base(codeArgs, nameArgs, contentArgs, descriptionArgs, rankArgs, flagArgs)
         {
             DataBaseController = dataBaseControllerArgs;

@@ -12,14 +12,16 @@ namespace HQMS.Frame.Kernel.Environment
     {
         public ValidationResults ValidationResults { get; set; }
 
-        public PathCollecter AppPathSetting { get; set; }
+        public PathCollecter PathSetting { get; set; }
+        public LogCollecter LogSetting { get; set; }
         public DataBaseCollecter DataBaseSetting { get; set; }
 
         public EnvironmentMonitor()
         {
             ValidationResults = new ValidationResults();
 
-            AppPathSetting = new PathCollecter();
+            PathSetting = new PathCollecter();
+            LogSetting = new LogCollecter();
             DataBaseSetting = new DataBaseCollecter();
         }
     }

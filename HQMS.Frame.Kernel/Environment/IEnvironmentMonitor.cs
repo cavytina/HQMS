@@ -15,7 +15,8 @@ namespace HQMS.Frame.Kernel.Environment
     {
         ValidationResults ValidationResults { get; set; }
 
-        PathCollecter AppPathSetting { get; set; }
+        PathCollecter PathSetting { get; set; }
+        LogCollecter LogSetting { get; set; }
         DataBaseCollecter DataBaseSetting { get; set; }
     }
 }

@@ -102,10 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Collecters\DataBaseCollecter.cs" />
+    <Compile Include="Core\Collecters\LogCollecter.cs" />
     <Compile Include="Core\Collecters\PathCollecter.cs" />
     <Compile Include="Core\Kinds\BaseKind.cs" />
     <Compile Include="Core\Kinds\CategoryKind.cs" />
     <Compile Include="Core\Kinds\DataBaseKind.cs" />
+    <Compile Include="Core\Kinds\LogKind.cs" />
     <Compile Include="Core\Parts\DataBasePart.cs" />
     <Compile Include="Core\Parts\PathPart.cs" />
     <Compile Include="Core\Parts\WindowStatusPart.cs" />
@@ -130,13 +132,15 @@
     <Compile Include="Services\DataBaseService\NetworkDataBaseService\BAGLDBController.cs" />
     <Compile Include="Services\DataBaseService\DataBaseControllerBase.cs" />
     <Compile Include="Services\DataBaseService\DataBaseLauncher.cs" />
-    <Compile Include="Services\DataBaseService\IDataBaseLauncher.cs" />
-    <Compile Include="Services\PathService\IPathLauncher.cs" />
+    <Compile Include="Services\DataBaseService\IDataBaseManager.cs" />
+    <Compile Include="Services\LogService\ILogManager.cs" />
+    <Compile Include="Services\LogService\LogManager.cs" />
+    <Compile Include="Services\PathService\IPathManager.cs" />
     <Compile Include="Services\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\DataBaseService\NativeDataBaseService\NativeBaseController.cs" />
     <Compile Include="Services\LogService\ILogController.cs" />
     <Compile Include="Services\LogService\TextLogController.cs" />
-    <Compile Include="Services\PathService\PathLauncher.cs" />
+    <Compile Include="Services\PathService\PathManager.cs" />
     <Compile Include="Services\SecurityService\CipherService\ICipherController.cs" />
     <Compile Include="Services\SecurityService\CipherService\SMController.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

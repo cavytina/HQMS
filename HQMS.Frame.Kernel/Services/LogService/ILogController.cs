@@ -8,6 +8,6 @@ namespace HQMS.Frame.Kernel.Services
 {
     public interface ILogController
     {
-        void WriteLog(string MessageArgs);
+        void WriteLog(string messageArgs);
     }
 }

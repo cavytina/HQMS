@@ -27,8 +27,8 @@ namespace HQMS.Frame.Kernel.Services
 
         public DataBaseControllerBase(IContainerProvider containerProviderArgs)
         {
-            logController = containerProviderArgs.Resolve<ILogController>();
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
+            logController = environmentMonitor.LogSetting.GetLogController("TextLog");
         }
 
         [SelfValidation]
