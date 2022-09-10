@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HQMSDB", "HQMSDB", "{C2432BEC-5D98-430C-8D6C-A8DA4C85085E}"
 	ProjectSection(SolutionItems) = preProject
 		..\HQMSDB\System_DataBaseSetting.sql = ..\HQMSDB\System_DataBaseSetting.sql
+		..\HQMSDB\System_LogSettiing.sql = ..\HQMSDB\System_LogSettiing.sql
 		..\HQMSDB\System_ModuleSetting.sql = ..\HQMSDB\System_ModuleSetting.sql
 		..\HQMSDB\System_PathSetting.sql = ..\HQMSDB\System_PathSetting.sql
 	EndProjectSection
