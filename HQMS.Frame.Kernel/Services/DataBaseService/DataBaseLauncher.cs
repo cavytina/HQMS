@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Ioc;
-using HQMS.Frame.Kernel.Core;
+using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Environment;
 
 namespace HQMS.Frame.Kernel.Services

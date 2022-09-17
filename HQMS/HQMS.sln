@@ -7,19 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS", "HQMS.csproj", "{8F3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Kernel", "..\HQMS.Frame.Kernel\HQMS.Frame.Kernel.csproj", "{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.ModuleLauncher", "..\HQMS.Frame.ModuleLauncher\HQMS.Frame.ModuleLauncher.csproj", "{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Control.Login", "..\HQMS.Frame.Control.Login\HQMS.Frame.Control.Login.csproj", "{FA008811-8930-43C8-92A5-1A88B20066DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.ServiceLauncher", "..\HQMS.Frame.ServiceLauncher\HQMS.Frame.ServiceLauncher.csproj", "{50288CED-72ED-4A21-9254-9E4031227D81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.DataBaseScript", "..\HQMS.Frame.DataBaseScript\HQMS.Frame.DataBaseScript.csproj", "{53A05560-5912-4192-A5D1-E77BDC8EC1C6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HQMSDB", "HQMSDB", "{C2432BEC-5D98-430C-8D6C-A8DA4C85085E}"
-	ProjectSection(SolutionItems) = preProject
-		..\HQMSDB\System_DataBaseSetting.sql = ..\HQMSDB\System_DataBaseSetting.sql
-		..\HQMSDB\System_LogSettiing.sql = ..\HQMSDB\System_LogSettiing.sql
-		..\HQMSDB\System_ModuleSetting.sql = ..\HQMSDB\System_ModuleSetting.sql
-		..\HQMSDB\System_PathSetting.sql = ..\HQMSDB\System_PathSetting.sql
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Service", "..\HQMS.Frame.Service\HQMS.Frame.Service.csproj", "{629A48C4-1A34-467A-A192-9AE5A173C457}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,18 +27,18 @@ Global
 		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DE38AE3-2AAD-4025-8B11-5F3A8A20D92D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50288CED-72ED-4A21-9254-9E4031227D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50288CED-72ED-4A21-9254-9E4031227D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50288CED-72ED-4A21-9254-9E4031227D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50288CED-72ED-4A21-9254-9E4031227D81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53A05560-5912-4192-A5D1-E77BDC8EC1C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A05560-5912-4192-A5D1-E77BDC8EC1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A05560-5912-4192-A5D1-E77BDC8EC1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A05560-5912-4192-A5D1-E77BDC8EC1C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{629A48C4-1A34-467A-A192-9AE5A173C457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{629A48C4-1A34-467A-A192-9AE5A173C457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{629A48C4-1A34-467A-A192-9AE5A173C457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{629A48C4-1A34-467A-A192-9AE5A173C457}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

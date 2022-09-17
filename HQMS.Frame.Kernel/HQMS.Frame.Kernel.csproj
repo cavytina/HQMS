@@ -101,19 +101,24 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Collecters\DataBaseCollecter.cs" />
-    <Compile Include="Core\Collecters\LogCollecter.cs" />
-    <Compile Include="Core\Collecters\PathCollecter.cs" />
-    <Compile Include="Core\Kinds\BaseKind.cs" />
-    <Compile Include="Core\Kinds\CategoryKind.cs" />
-    <Compile Include="Core\Kinds\DataBaseKind.cs" />
-    <Compile Include="Core\Kinds\LogKind.cs" />
-    <Compile Include="Core\Parts\DataBasePart.cs" />
-    <Compile Include="Core\Parts\PathPart.cs" />
-    <Compile Include="Core\Parts\WindowStatusPart.cs" />
+    <Compile Include="Infrastructure\Collecters\DataBaseCollecter.cs" />
+    <Compile Include="Infrastructure\Collecters\LogCollecter.cs" />
+    <Compile Include="Infrastructure\Collecters\PathCollecter.cs" />
+    <Compile Include="Infrastructure\Kinds\BaseKind.cs" />
+    <Compile Include="Infrastructure\Kinds\CategoryKind.cs" />
+    <Compile Include="Infrastructure\Kinds\DataBaseKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Event\ResultKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Event\WindowStatusKind.cs" />
+    <Compile Include="Infrastructure\Kinds\LogKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Event\AccountInfoKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Event\ServiceKind.cs" />
+    <Compile Include="Infrastructure\Parts\DataBasePart.cs" />
+    <Compile Include="Infrastructure\Parts\PathPart.cs" />
+    <Compile Include="Infrastructure\Parts\WindowStatusPart.cs" />
     <Compile Include="Environment\EnvironmentMonitor.cs" />
     <Compile Include="Environment\IEnvironmentMonitor.cs" />
-    <Compile Include="Events\WindowStatusChangedEvent.cs" />
+    <Compile Include="Events\RequestServiceEvent.cs" />
+    <Compile Include="Events\ResponseServiceEvent.cs" />
     <Compile Include="Extension\FrameModuleCatalogExtension.cs" />
     <Compile Include="KernelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -143,6 +148,7 @@
     <Compile Include="Services\PathService\PathManager.cs" />
     <Compile Include="Services\SecurityService\CipherService\ICipherController.cs" />
     <Compile Include="Services\SecurityService\CipherService\SMController.cs" />
+    <Compile Include="Startup\KernelLauncher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

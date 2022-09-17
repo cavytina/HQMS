@@ -8,7 +8,7 @@ using Prism.Ioc;
 using System.Data.SQLite;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using HQMS.Frame.Kernel.Core;
+using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Environment;
 
 namespace HQMS.Frame.Kernel.Services

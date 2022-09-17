@@ -10,7 +10,8 @@ using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 using HQMS.Frame.Kernel.Environment;
 using HQMS.Frame.Kernel.Services;
 using HQMS.Frame.Kernel.Extension;
-using System.Windows;
+using HQMS.Frame.Kernel.Infrastructure;
+using HQMS.Frame.Kernel.Events;
 
 namespace HQMS.Frame.Kernel
 {
@@ -69,10 +70,6 @@ namespace HQMS.Frame.Kernel
             dataBaseManager.Initialize();
 
             dataBaseManager.Load();
-
-            pathManager.Save();
-            logManager.Save();
-            dataBaseManager.Save();
         }
 
         private void LoadFrameModuleCatalog()

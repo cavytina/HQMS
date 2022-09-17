@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
-using HQMS.Frame.Kernel.Core;
+using HQMS.Frame.Kernel.Infrastructure;
 
 namespace HQMS.Frame.Kernel.Environment
 {

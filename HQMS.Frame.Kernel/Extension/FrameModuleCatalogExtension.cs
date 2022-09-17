@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Modularity;
 using Prism.Ioc;
-using HQMS.Frame.Kernel.Core;
+using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Environment;
 using HQMS.Frame.Kernel.Services;
 
