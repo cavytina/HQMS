@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public class ServiceKind
+    public class ResponseAccountKind : IServiceContent
     {
-        public string code { get; set; }
-        public string name { get; set; }
-        public string content { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
     }
 }

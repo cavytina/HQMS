@@ -7,6 +7,7 @@ using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Events;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Events;
 
@@ -38,16 +39,16 @@ namespace HQMS.Frame.Control.Login.Models
             eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseService);
         }
 
-        private void OnResponseService(string responseServiceText)
+        private void OnResponseService(string responseServiceTextArgs)
         {
-            ServiceKind responseService = JsonConvert.DeserializeObject<ServiceKind>(responseServiceText);
+            JObject respSvcObj = JObject.Parse(responseServiceTextArgs);
 
-            if (responseService.name == "AccountAuthenticationService")
+            if (respSvcObj["svc_code"].Value<string>() == "01" && respSvcObj["ret_code"].Value<string>() == "1")
             {
-                ResultKind resultInfo = JsonConvert.DeserializeObject<ResultKind>(responseService.content);
+                ret = true;
 
-                if (resultInfo.result == "True")
-                    ret = true;
+                JObject responseContentObj = respSvcObj["serv_cont"].Value<JObject>();
+                ResponseAccountKind responseAccountInfo = new ResponseAccountKind { Name = responseContentObj["name"].Value<string>() };
             }
         }
 
@@ -55,17 +56,19 @@ namespace HQMS.Frame.Control.Login.Models
         {
             ret = false;
 
-            AccountInfoKind accountInfo = new AccountInfoKind
+            RequestAccountKind accountInfo = new RequestAccountKind
             {
-                account = Account,
-                password = Password
+                Account = Account,
+                Password = Password
             };
 
-            ServiceKind requestAccountAuthenticationService = new ServiceKind
+            RequestServiceKind requestAccountAuthenticationService = new RequestServiceKind
             {
-                code = "01",
-                name = "AccountAuthenticationService",  
-                content = JsonConvert.SerializeObject(accountInfo)
+                Code = "01",
+                Name = "AccountAuthenticationService",
+                Description = "用户认证服务",
+                RequestModuleName = "LoginModule",
+                ServiceContent = accountInfo
             };
 
             string requestAccountAuthenticationServiceJsonText = JsonConvert.SerializeObject(requestAccountAuthenticationService);

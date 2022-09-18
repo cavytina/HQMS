@@ -9,7 +9,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace HQMS.ViewModels
 {
-    public class LoginWindowViewModel:BindableBase
+    public class LoginWindowViewModel : BindableBase
     {
         ISnackbarMessageQueue messageQueue;
         public ISnackbarMessageQueue LoginMessageQueue

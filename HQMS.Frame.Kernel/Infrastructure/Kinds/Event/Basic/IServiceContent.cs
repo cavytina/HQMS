@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public class AccountInfoKind
+    public interface IServiceContent
     {
-        public string account { get; set; }
-        public string password { get; set; }
+
     }
 }

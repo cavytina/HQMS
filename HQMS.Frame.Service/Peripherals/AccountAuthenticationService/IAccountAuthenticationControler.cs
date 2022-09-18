@@ -9,6 +9,6 @@ namespace HQMS.Frame.Service.Peripherals
 {
     public interface IAccountAuthenticationControler
     {
-        bool Validate(AccountInfoKind accountInfoKindArgs);
+        bool Validate(RequestAccountKind requestAccountKindArgs);
     }
 }

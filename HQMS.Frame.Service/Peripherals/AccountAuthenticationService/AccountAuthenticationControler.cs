@@ -28,19 +28,19 @@ namespace HQMS.Frame.Service.Peripherals
             bagldbController = environmentMonitor.DataBaseSetting.GetDataBaseController("BAGLDB");
         }
 
-        public bool Validate(AccountInfoKind accountInfoKindArgs)
+        public bool Validate(RequestAccountKind requestAccountKindArgs)
         {
             string pwdFromDBText, pwdCipherText;
 
             sqlStatement = "SELECT FCODE,FNAME,FPASSWORD FROM TSYSUSER";
             bagldbController.Query<tsysuserKind>(sqlStatement, out tsysuserHub);
             var currentTsysuser = from currentTsysuserHub in tsysuserHub
-                                  where currentTsysuserHub.FCODE == accountInfoKindArgs.account
+                                  where currentTsysuserHub.FCODE == requestAccountKindArgs.Account
                                   select currentTsysuserHub;
             pwdFromDBText = currentTsysuser.FirstOrDefault().FPASSWORD;
 
             IOneWayCipherController oneWayCipherController = containerProvider.Resolve<IOneWayCipherController>();
-            pwdCipherText = oneWayCipherController.Encrypt(accountInfoKindArgs.password);
+            pwdCipherText = oneWayCipherController.Encrypt(requestAccountKindArgs.Password);
 
             if (pwdFromDBText == pwdCipherText)
                 return true;

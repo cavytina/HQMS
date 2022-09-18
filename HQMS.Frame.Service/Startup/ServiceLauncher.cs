@@ -7,6 +7,7 @@ using Prism.Ioc;
 using Prism.Events;
 using Prism.Modularity;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Events;
 using HQMS.Frame.Service.Peripherals;
@@ -35,26 +36,37 @@ namespace HQMS.Frame.Service
             }
         }
 
-        private void OnRequestService(string requestServiceText)
+        private void OnRequestService(string requestServiceTextArgs)
         {
-            ServiceKind requestService = JsonConvert.DeserializeObject<ServiceKind>(requestServiceText);
+            JObject sevrObj  = JObject.Parse(requestServiceTextArgs);
 
-            if (requestService.name== "AccountAuthenticationService")
+            if (sevrObj["svc_code"].Value<string>()== "01")
             {
-                AccountInfoKind accountInfo= JsonConvert.DeserializeObject<AccountInfoKind>(requestService.content);
+                JObject requestContentObj = sevrObj["serv_cont"].Value<JObject>();
 
-                IAccountAuthenticationControler accountAuthenticationControler = containerProvider.Resolve<IAccountAuthenticationControler>();
-                bool ret = accountAuthenticationControler.Validate(accountInfo);
-
-                ResultKind resultKind = new ResultKind { result = ret.ToString() };
-                ServiceKind responseService = new ServiceKind
+                RequestAccountKind requestAccountInfo = new RequestAccountKind
                 {
-                    code = "01",
-                    name = "AccountAuthenticationService",
-                    content = JsonConvert.SerializeObject(resultKind)
+                    Account = requestContentObj["account"].Value<string>(),
+                    Password = requestContentObj["password"].Value<string>()
                 };
 
-                string responseAccountAuthenticationServiceJsonText = JsonConvert.SerializeObject(responseService);
+                IAccountAuthenticationControler accountAuthenticationControler = containerProvider.Resolve<IAccountAuthenticationControler>();
+                bool ret = accountAuthenticationControler.Validate(requestAccountInfo);
+
+                ResponseAccountKind responseAccountInfo = new ResponseAccountKind { Name = "测试" };
+
+                ResponseServiceKind responseServiceInfo = new ResponseServiceKind
+                {
+                    Code = "01",
+                    Name = "AccountAuthenticationService",
+                    Description = "用户认证服务",
+                    ResponseModuleName = "ServiceModule",
+                    ReturnCode = ret == true ? "1" : "0",
+                    ErrorMessage = "",
+                    ServiceContent = responseAccountInfo
+                };
+
+                string responseAccountAuthenticationServiceJsonText = JsonConvert.SerializeObject(responseServiceInfo);
 
                 eventAggregator.GetEvent<ResponseServiceEvent>().Publish(responseAccountAuthenticationServiceJsonText);
             }

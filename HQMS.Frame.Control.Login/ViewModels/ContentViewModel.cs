@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Commands;
@@ -37,6 +38,12 @@ namespace HQMS.Frame.Control.Login.ViewModels
         {
             if (!ContentModel.IsLoginSucceed())
                 messageQueue.Enqueue("登录失败!");
+            else
+            { 
+                SystemCommands.CloseWindow(obj as Window);
+
+            }
+                
         }
     }
 }
