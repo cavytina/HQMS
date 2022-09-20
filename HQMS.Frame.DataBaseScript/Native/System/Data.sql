@@ -43,3 +43,15 @@ SELECT '02','LoginModule','HQMS.Frame.Control.Login.dll',
         'HQMS.Frame.Control.Login.LoginModule, HQMS.Frame.Control.Login, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
         	2,True
 WHERE NOT EXISTS (SELECT 1 FROM System_ModuleSetting WHERE Code='02')
+
+INSERT INTO System_ModuleSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '03','MainHeaderModule','HQMS.Frame.Control.MainHeader.dll',
+        'HQMS.Frame.Control.MainHeader.MainHeaderModule, HQMS.Frame.Control.MainHeader, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
+        	3,True
+WHERE NOT EXISTS (SELECT 1 FROM System_ModuleSetting WHERE Code='03')
+
+INSERT INTO System_ModuleSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '04','MainLeftDrawerModule','HQMS.Frame.Control.MainLeftDrawer.dll',
+        'HQMS.Frame.Control.MainLeftDrawer.MainLeftDrawerModule, HQMS.Frame.Control.MainLeftDrawer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
+        	4,True
+WHERE NOT EXISTS (SELECT 1 FROM System_ModuleSetting WHERE Code='04')

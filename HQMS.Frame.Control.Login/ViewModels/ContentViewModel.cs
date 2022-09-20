@@ -41,7 +41,7 @@ namespace HQMS.Frame.Control.Login.ViewModels
             else
             { 
                 SystemCommands.CloseWindow(obj as Window);
-
+                ContentModel.PublishWindowStatusService();
             }
                 
         }

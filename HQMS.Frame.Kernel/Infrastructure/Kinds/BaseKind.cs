@@ -21,7 +21,7 @@ namespace HQMS.Frame.Kernel.Infrastructure
         [JsonIgnore]
         public string Content { get; set; }
 
-        [JsonProperty(PropertyName = "svc_desc")]
+        [JsonProperty(PropertyName = "svc_des")]
         public string Description { get; set; }
 
         [JsonIgnore]

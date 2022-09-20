@@ -35,8 +35,6 @@ namespace HQMS.Frame.Control.Login.Models
         public ContentModel(IContainerProvider containerProviderArgs)
         {
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
-
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseService);
         }
 
         private void OnResponseService(string responseServiceTextArgs)
@@ -47,7 +45,7 @@ namespace HQMS.Frame.Control.Login.Models
             {
                 ret = true;
 
-                JObject responseContentObj = respSvcObj["serv_cont"].Value<JObject>();
+                JObject responseContentObj = respSvcObj["svc_cry"].Value<JObject>();
                 ResponseAccountKind responseAccountInfo = new ResponseAccountKind { Name = responseContentObj["name"].Value<string>() };
             }
         }
@@ -75,7 +73,30 @@ namespace HQMS.Frame.Control.Login.Models
 
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestAccountAuthenticationServiceJsonText);
 
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseService);
+
             return ret;
+        }
+
+        public void PublishWindowStatusService()
+        {
+            WindowStatusKind windowStatusInfo = new WindowStatusKind
+            {
+                WindowStatus = WindowStatusPart.LoginWindowLoginSucceed
+            };
+
+            RequestServiceKind requestWindowStatusService = new RequestServiceKind
+            {
+                Code = "02",
+                Name = "WindowStatusService",
+                Description = "窗口状态服务",
+                RequestModuleName = "LoginModule",
+                ServiceContent = windowStatusInfo
+            };
+
+            string requestWindowStatusServiceJsonText = JsonConvert.SerializeObject(requestWindowStatusService);
+
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestWindowStatusServiceJsonText);
         }
     }
 }

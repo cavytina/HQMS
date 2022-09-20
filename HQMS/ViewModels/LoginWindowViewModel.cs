@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Mvvm;
 using MaterialDesignThemes.Wpf;
+using HQMS.Models;
 
 namespace HQMS.ViewModels
 {
     public class LoginWindowViewModel : BindableBase
     {
+        LoginWindowModel loginWindowModel;
+        public LoginWindowModel LoginWindowModel
+        {
+            get => loginWindowModel;
+            set => SetProperty(ref loginWindowModel, value);
+        }
+
         ISnackbarMessageQueue messageQueue;
         public ISnackbarMessageQueue LoginMessageQueue
         {
@@ -20,6 +28,8 @@ namespace HQMS.ViewModels
 
         public LoginWindowViewModel(IContainerProvider containerProviderArgs)
         {
+            LoginWindowModel = new LoginWindowModel(containerProviderArgs);
+
             LoginMessageQueue = containerProviderArgs.Resolve<ISnackbarMessageQueue>();
         }
     }

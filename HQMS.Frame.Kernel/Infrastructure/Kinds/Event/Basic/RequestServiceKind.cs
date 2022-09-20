@@ -9,10 +9,10 @@ namespace HQMS.Frame.Kernel.Infrastructure
 {
     public class RequestServiceKind : BaseKind
     {
-        [JsonProperty(PropertyName = "request_module_name")]
+        [JsonProperty(PropertyName = "req_mod_name")]
         public string RequestModuleName { get; set; }
 
-        [JsonProperty(PropertyName = "serv_cont")]
+        [JsonProperty(PropertyName = "svc_cry")]
         public IServiceContent ServiceContent { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace HQMS.Frame.Service
 
             if (sevrObj["svc_code"].Value<string>()== "01")
             {
-                JObject requestContentObj = sevrObj["serv_cont"].Value<JObject>();
+                JObject requestContentObj = sevrObj["svc_cry"].Value<JObject>();
 
                 RequestAccountKind requestAccountInfo = new RequestAccountKind
                 {
