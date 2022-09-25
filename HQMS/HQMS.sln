@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS", "HQMS.csproj", "{8F3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Kernel", "..\HQMS.Frame.Kernel\HQMS.Frame.Kernel.csproj", "{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Control.Login", "..\HQMS.Frame.Control.Login\HQMS.Frame.Control.Login.csproj", "{FA008811-8930-43C8-92A5-1A88B20066DB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.DataBaseScript", "..\HQMS.Frame.DataBaseScript\HQMS.Frame.DataBaseScript.csproj", "{53A05560-5912-4192-A5D1-E77BDC8EC1C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Service", "..\HQMS.Frame.Service\HQMS.Frame.Service.csproj", "{629A48C4-1A34-467A-A192-9AE5A173C457}"
@@ -21,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Control.MainHeader", "..\HQMS.Frame.Control.MainHeader\HQMS.Frame.Control.MainHeader.csproj", "{01F783E8-5DB5-46AD-8371-BAF8F4DB0645}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Control.MainLeftDrawer", "..\HQMS.Frame.Control.MainLeftDrawer\HQMS.Frame.Control.MainLeftDrawer.csproj", "{1D6C1BA2-500F-4E5E-9FCD-2818C692C356}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HQMS.Frame.Control.Login", "..\HQMS.Frame.Control.Login\HQMS.Frame.Control.Login.csproj", "{FA008811-8930-43C8-92A5-1A88B20066DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,10 +36,6 @@ Global
 		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2D3FB7E-62DF-4012-BB7E-E5AD174DD1A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53A05560-5912-4192-A5D1-E77BDC8EC1C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53A05560-5912-4192-A5D1-E77BDC8EC1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53A05560-5912-4192-A5D1-E77BDC8EC1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,6 +52,10 @@ Global
 		{1D6C1BA2-500F-4E5E-9FCD-2818C692C356}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D6C1BA2-500F-4E5E-9FCD-2818C692C356}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D6C1BA2-500F-4E5E-9FCD-2818C692C356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA008811-8930-43C8-92A5-1A88B20066DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

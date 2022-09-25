@@ -23,14 +23,14 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <ContentControl Grid.Row="0" 
-                        prism:RegionManager.RegionName="LoginHeaderRegion"/>
+            <ContentControl Grid.Row="0"
+                            prism:RegionManager.RegionName="LoginHeaderRegion"/>
 
             <StackPanel Grid.Row="1">
                 <ContentControl prism:RegionManager.RegionName="LoginContentRegion"/>
 
                 <materialDesign:Snackbar Margin="0 4 0 0"
-                                     MessageQueue="{Binding LoginMessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                         MessageQueue="{Binding LoginMessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
     </materialDesign:DialogHost>

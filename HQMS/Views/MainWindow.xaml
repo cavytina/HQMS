@@ -22,23 +22,26 @@
         <WindowChrome CaptionHeight="68" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None"/>
     </WindowChrome.WindowChrome>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0"
+    <materialDesign:DialogHost Identifier="MainDialog"
+                               DialogTheme="Inherit">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ContentControl Grid.Row="0"
                         prism:RegionManager.RegionName="MainHeaderRegion"/>
 
-        <materialDesign:DrawerHost Grid.Row="1"
+            <materialDesign:DrawerHost Grid.Row="1"
                                    IsLeftDrawerOpen="{Binding IsLeftDrawerOpen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-            <materialDesign:DrawerHost.LeftDrawerContent>
-                <ContentControl prism:RegionManager.RegionName="MainLeftDrawerRegion"/>
-            </materialDesign:DrawerHost.LeftDrawerContent>
+                <materialDesign:DrawerHost.LeftDrawerContent>
+                    <ContentControl prism:RegionManager.RegionName="MainLeftDrawerRegion"/>
+                </materialDesign:DrawerHost.LeftDrawerContent>
 
-            <DockPanel>
-                <TabControl DockPanel.Dock="Top"
+                <DockPanel>
+                    <TabControl DockPanel.Dock="Top"
                     Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
                     BorderThickness="0"
                     BorderBrush="Transparent"
@@ -47,37 +50,38 @@
                     SnapsToDevicePixels="True"
                     prism:RegionManager.RegionManager="{Binding RegionManager}"
                     prism:RegionManager.RegionName="MainContentRegion">
-                    <TabControl.ItemContainerStyle>
-                        <Style TargetType="{x:Type TabItem}">
-                            <Setter Property="Header" Value="{Binding DataContext.MenuItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Setter Property="HeaderTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <DockPanel>
-                                            <TextBlock DockPanel.Dock="Left"
+                        <TabControl.ItemContainerStyle>
+                            <Style TargetType="{x:Type TabItem}">
+                                <Setter Property="Header" Value="{Binding DataContext.MenuItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Setter Property="HeaderTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Left"
                                                        Style="{DynamicResource MaterialDesignCaptionTextBlock}"
                                                        Text="{Binding}"
                                                        VerticalAlignment="Center"/>
-                                            <Button DockPanel.Dock="Right"
+                                                <Button DockPanel.Dock="Right"
                                                     Style="{DynamicResource MaterialDesignToolButton}" 
                                                     Content="{materialDesign:PackIcon Kind=Close}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <action:CloseTabItemAction/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button>
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TabControl.ItemContainerStyle>
-                </TabControl>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <action:CloseTabItemAction/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </Button>
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TabControl.ItemContainerStyle>
+                    </TabControl>
 
-                <materialDesign:Snackbar DockPanel.Dock="Bottom"
+                    <materialDesign:Snackbar DockPanel.Dock="Bottom"
                                          MessageQueue="{Binding MessageQueue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            </DockPanel>
-        </materialDesign:DrawerHost>
-    </Grid>
+                </DockPanel>
+            </materialDesign:DrawerHost>
+        </Grid>
+    </materialDesign:DialogHost>
 </Window>

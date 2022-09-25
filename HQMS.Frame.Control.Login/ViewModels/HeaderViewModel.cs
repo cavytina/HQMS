@@ -91,10 +91,9 @@ namespace HQMS.Frame.Control.Login.ViewModels
             SystemCommands.MinimizeWindow(obj as Window);
         }
 
-
         private async void OnCloseWindow(object obj)
         {
-            await ShowConfirmationDialogAsync(obj,true);
+            await ShowConfirmationDialogAsync(obj,false);
         }
 
         private async Task ShowConfirmationDialogAsync(object obj,bool stackedButtons)
@@ -103,7 +102,7 @@ namespace HQMS.Frame.Control.Login.ViewModels
             {
                 Title = "关闭程序",
                 Message = "确定关闭程序吗?",
-                OkButtonLabel = "关闭",
+                OkButtonLabel = "确定",
                 CancelButtonLabel = "取消",
                 StackedButtons = stackedButtons
             };

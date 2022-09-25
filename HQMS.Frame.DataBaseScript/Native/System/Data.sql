@@ -55,3 +55,14 @@ SELECT '04','MainLeftDrawerModule','HQMS.Frame.Control.MainLeftDrawer.dll',
         'HQMS.Frame.Control.MainLeftDrawer.MainLeftDrawerModule, HQMS.Frame.Control.MainLeftDrawer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
         	4,True
 WHERE NOT EXISTS (SELECT 1 FROM System_ModuleSetting WHERE Code='04')
+
+/*****************************************************
+System_ServiceEventSetting           程序框架服务设置
+******************************************************/
+INSERT INTO System_ServiceEventSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '01','AccountAuthenticationService','','用户认证服务',1,True
+WHERE NOT EXISTS (SELECT 1 FROM System_ServiceEventSetting WHERE Code='01')
+
+INSERT INTO System_ServiceEventSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '02','ApplicationStatusService','','程序状态服务',2,True
+WHERE NOT EXISTS (SELECT 1 FROM System_ServiceEventSetting WHERE Code='02')

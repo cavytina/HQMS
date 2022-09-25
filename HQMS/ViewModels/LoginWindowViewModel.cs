@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Regions;
 using MaterialDesignThemes.Wpf;
 using HQMS.Models;
 

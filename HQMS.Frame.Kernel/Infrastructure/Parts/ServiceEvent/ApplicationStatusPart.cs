@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public enum WindowStatusPart
+    public enum ApplicationStatusPart
     {
-        LoginWindowLoaded,
-        ShellWindowLoaded,
-        LoginWindowReLoad,
-        LoginWindowLoginSucceed
+        LoginWindowReLoad = 1,
+        LoginWindowSucceed = 2
     }
 }

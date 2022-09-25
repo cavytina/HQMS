@@ -9,18 +9,17 @@ using Prism.Mvvm;
 using Prism.Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Events;
 using HQMS.Views;
 
 namespace HQMS.Models
 {
-    public class LoginWindowModel : BindableBase
+    public class MainWindowModel : BindableBase
     {
         IContainerProvider containerProvider;
         IEventAggregator eventAggregator;
 
-        public LoginWindowModel(IContainerProvider containerProviderArgs)
+        public MainWindowModel(IContainerProvider containerProviderArgs)
         {
             containerProvider = containerProviderArgs;
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
@@ -35,10 +34,10 @@ namespace HQMS.Models
             if (sevrObj["svc_code"].Value<string>() == "02")
             {
                 JObject requestContentObj = sevrObj["svc_cry"].Value<JObject>();
-                if (requestContentObj["App_Stas"].Value<string>() == "LoginWindowSucceed")
+                if (requestContentObj["App_Stas"].Value<string>() == "LoginWindowReLoad")
                 {
-                    Window mainWindow = containerProvider.Resolve<MainWindow>();
-                    mainWindow.Show();
+                    Window loginWindow = containerProvider.Resolve<LoginWindow>();
+                    loginWindow.Show();
                 }
             }
         }

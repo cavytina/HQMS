@@ -8,10 +8,10 @@ using Newtonsoft.Json.Converters;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public class WindowStatusKind :IServiceContent
+    public class ApplicationStatusKind : IServiceContent
     {
-        [JsonProperty(PropertyName = "Win_Sts")]
+        [JsonProperty(PropertyName = "App_Stas")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public WindowStatusPart WindowStatus { get; set; }
+        public ApplicationStatusPart ApplicationStatus { get; set; }
     }
 }

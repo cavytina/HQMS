@@ -1,5 +1,5 @@
 /*****************************************************
-System_PathSetting      程序路径设置
+System_PathSetting                程序框架路径设置
 ******************************************************/
 
 drop table if exists System_PathSetting;
@@ -15,7 +15,7 @@ CREATE TABLE System_PathSetting
 );
 
 /*****************************************************
-System_LogSetting      程序日志设置
+System_LogSetting                  程序框架日志设置
 ******************************************************/
 
 drop table if exists System_LogSetting;
@@ -31,7 +31,7 @@ CREATE TABLE System_LogSetting
 );
 
 /*****************************************************
-System_DataBaseSetting  程序数据库设置
+System_DataBaseSetting              程序框架数据库设置
 ******************************************************/
 
 drop table if exists System_DataBaseSetting;
@@ -47,7 +47,7 @@ CREATE TABLE System_DataBaseSetting
 );
 
 /*****************************************************
-System_ModuleSetting      程序框架模块设置
+System_ModuleSetting                程序框架模块设置
 ******************************************************/
 
 drop table if exists System_ModuleSetting;
@@ -61,3 +61,22 @@ CREATE TABLE System_ModuleSetting
     Rank INT,                       --模块启动顺序
     Flag BOOLEAN                    --是否启用
 );
+
+
+/*****************************************************
+System_ServiceEventSetting           程序框架服务设置
+******************************************************/
+
+drop table if exists System_ServiceEventSetting;
+
+CREATE TABLE System_ServiceEventSetting
+(
+    Code VARCHAR primary key,       --服务代码
+    Name VARCHAR,                   --服务名称
+    Content VARCHAR,                --保留字段
+    Description VARCHAR,            --服务描述
+    Rank INT,                       --排序
+    Flag BOOLEAN                    --是否启用
+);
+
+SELECT 

@@ -45,6 +45,8 @@ namespace HQMS.Frame.Kernel
             containerRegistryArgs.Register<IPathManager, PathManager>();
             containerRegistryArgs.Register<ILogManager, LogManager>();
             containerRegistryArgs.Register<IDataBaseManager, DataBaseManager>();
+
+            containerRegistryArgs.Register<IJsonTextController, JsonTextController>();
         }
 
         private void InitializeAndValidationServices()

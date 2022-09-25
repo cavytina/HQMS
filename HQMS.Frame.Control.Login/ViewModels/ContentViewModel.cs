@@ -12,7 +12,7 @@ using HQMS.Frame.Control.Login.Models;
 
 namespace HQMS.Frame.Control.Login.ViewModels
 {
-    public class ContentViewModel:BindableBase
+    public class ContentViewModel : BindableBase
     {
         ISnackbarMessageQueue messageQueue;
 
@@ -39,11 +39,11 @@ namespace HQMS.Frame.Control.Login.ViewModels
             if (!ContentModel.IsLoginSucceed())
                 messageQueue.Enqueue("登录失败!");
             else
-            { 
+            {
                 SystemCommands.CloseWindow(obj as Window);
-                ContentModel.PublishWindowStatusService();
+                ContentModel.NavigateToMainWindow();
             }
-                
+
         }
     }
 }

@@ -37,19 +37,6 @@ namespace HQMS.Frame.Control.Login.Models
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
         }
 
-        private void OnResponseService(string responseServiceTextArgs)
-        {
-            JObject respSvcObj = JObject.Parse(responseServiceTextArgs);
-
-            if (respSvcObj["svc_code"].Value<string>() == "01" && respSvcObj["ret_code"].Value<string>() == "1")
-            {
-                ret = true;
-
-                JObject responseContentObj = respSvcObj["svc_cry"].Value<JObject>();
-                ResponseAccountKind responseAccountInfo = new ResponseAccountKind { Name = responseContentObj["name"].Value<string>() };
-            }
-        }
-
         public bool IsLoginSucceed()
         {
             ret = false;
@@ -78,11 +65,24 @@ namespace HQMS.Frame.Control.Login.Models
             return ret;
         }
 
-        public void PublishWindowStatusService()
+        private void OnResponseService(string responseServiceTextArgs)
         {
-            WindowStatusKind windowStatusInfo = new WindowStatusKind
+            JObject respSvcObj = JObject.Parse(responseServiceTextArgs);
+
+            if (respSvcObj["svc_code"].Value<string>() == "01" && respSvcObj["ret_code"].Value<string>() == "1")
             {
-                WindowStatus = WindowStatusPart.LoginWindowLoginSucceed
+                ret = true;
+
+                JObject responseContentObj = respSvcObj["svc_cry"].Value<JObject>();
+                ResponseAccountKind responseAccountInfo = new ResponseAccountKind { Name = responseContentObj["name"].Value<string>() };
+            }
+        }
+
+        public void NavigateToMainWindow()
+        {
+            ApplicationStatusKind applicationStatus = new ApplicationStatusKind
+            {
+                ApplicationStatus = ApplicationStatusPart.LoginWindowSucceed
             };
 
             RequestServiceKind requestWindowStatusService = new RequestServiceKind
@@ -91,7 +91,7 @@ namespace HQMS.Frame.Control.Login.Models
                 Name = "WindowStatusService",
                 Description = "窗口状态服务",
                 RequestModuleName = "LoginModule",
-                ServiceContent = windowStatusInfo
+                ServiceContent = applicationStatus
             };
 
             string requestWindowStatusServiceJsonText = JsonConvert.SerializeObject(requestWindowStatusService);

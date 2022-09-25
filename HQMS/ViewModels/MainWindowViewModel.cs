@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
+using HQMS.Models;
 
 namespace HQMS.ViewModels
 {
-    public class MainWindowModel:BindableBase
+    public class MainWindowViewModel : BindableBase
     {
         double workAreaWidth;
         public double WorkAreaWidth
@@ -25,8 +26,17 @@ namespace HQMS.ViewModels
             set => SetProperty(ref workAreaHeight, value);
         }
 
-        public MainWindowModel(IContainerProvider containerProvider)
+        MainWindowModel mainWindowModel;
+        public MainWindowModel MainWindowModel
         {
+            get => mainWindowModel;
+            set => SetProperty(ref mainWindowModel, value);
+        }
+
+        public MainWindowViewModel(IContainerProvider containerProviderArgs)
+        {
+            MainWindowModel = new MainWindowModel(containerProviderArgs);
+
             WorkAreaWidth = SystemParameters.WorkArea.Width;
             WorkAreaHeight = SystemParameters.WorkArea.Height;
         }
