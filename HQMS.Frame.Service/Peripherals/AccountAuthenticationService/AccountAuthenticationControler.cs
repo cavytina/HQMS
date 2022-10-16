@@ -9,7 +9,6 @@ using HQMS.Frame.Kernel.Services;
 using HQMS.Frame.Kernel.Environment;
 using HQMS.Frame.Service.Infrastructure;
 using HQMS.Frame.Service.Peripherals;
-using System.Windows;
 
 namespace HQMS.Frame.Service.Peripherals
 {
@@ -28,24 +27,33 @@ namespace HQMS.Frame.Service.Peripherals
             bagldbController = environmentMonitor.DataBaseSetting.GetDataBaseController("BAGLDB");
         }
 
-        public bool Validate(RequestAccountKind requestAccountKindArgs)
+        public bool Validate(RequestAccountKind accountInfoArgs, out string messageArgs)
         {
-            string pwdFromDBText, pwdCipherText;
+            bool ret = false;
+            string pwdFromDBText,pwdCipherText;
+            messageArgs = string.Empty;
 
             sqlStatement = "SELECT FCODE,FNAME,FPASSWORD FROM TSYSUSER";
             bagldbController.Query<tsysuserKind>(sqlStatement, out tsysuserHub);
             var currentTsysuser = from currentTsysuserHub in tsysuserHub
-                                  where currentTsysuserHub.FCODE == requestAccountKindArgs.Account
+                                  where currentTsysuserHub.FCODE == accountInfoArgs.Account
                                   select currentTsysuserHub;
             pwdFromDBText = currentTsysuser.FirstOrDefault().FPASSWORD;
 
             IOneWayCipherController oneWayCipherController = containerProvider.Resolve<IOneWayCipherController>();
-            pwdCipherText = oneWayCipherController.Encrypt(requestAccountKindArgs.Password);
+            pwdCipherText = oneWayCipherController.Encrypt(accountInfoArgs.Password);
 
-            if (pwdFromDBText == pwdCipherText)
-                return true;
-            else
-                return false;
+            if (pwdFromDBText == null)
+                messageArgs = "无此账户记录";
+            else if (pwdFromDBText != pwdCipherText)
+                messageArgs = "密码错误,请核对后重新输入";
+            else if (pwdFromDBText == pwdCipherText)
+            {
+                ret = true;
+                messageArgs = currentTsysuser.FirstOrDefault().FNAME;
+            }
+
+            return ret;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace HQMS.Models
 
             if (sevrObj["svc_code"].Value<string>() == "02")
             {
-                JObject requestContentObj = sevrObj["svc_cry"].Value<JObject>();
+                JObject requestContentObj = sevrObj["svc_cont"].Value<JObject>();
                 if (requestContentObj["App_Stas"].Value<string>() == "LoginWindowSucceed")
                 {
                     Window mainWindow = containerProvider.Resolve<MainWindow>();

@@ -104,23 +104,33 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\RelayResponseServicEvent.cs" />
     <Compile Include="Infrastructure\Collecters\DataBaseCollecter.cs" />
     <Compile Include="Infrastructure\Collecters\LogCollecter.cs" />
+    <Compile Include="Infrastructure\Collecters\MenuCollerter.cs" />
     <Compile Include="Infrastructure\Collecters\PathCollecter.cs" />
     <Compile Include="Infrastructure\Kinds\Basic\BaseKind.cs" />
     <Compile Include="Infrastructure\Kinds\Basic\CategoryKind.cs" />
-    <Compile Include="Infrastructure\Kinds\Basic\DataBaseKind.cs" />
-    <Compile Include="Infrastructure\Kinds\ServiceEvent\Basic\IServiceContent.cs" />
-    <Compile Include="Infrastructure\Kinds\ServiceEvent\Basic\ResponseServiceKind.cs" />
-    <Compile Include="Infrastructure\Kinds\ServiceEvent\AccountAuthentication\ResponseAccountKind.cs" />
-    <Compile Include="Infrastructure\Kinds\ServiceEvent\ApplicationStatus\ApplicationStatusKind.cs" />
-    <Compile Include="Infrastructure\Kinds\Basic\LogKind.cs" />
-    <Compile Include="Infrastructure\Kinds\ServiceEvent\AccountAuthentication\RequestAccountKind.cs" />
-    <Compile Include="Infrastructure\Kinds\ServiceEvent\Basic\RequestServiceKind.cs" />
-    <Compile Include="Infrastructure\Parts\ServiceEvent\ApplicationStatusPart.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\Basic\EmptyRequestServiceContentKind.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\MenuItemService\RequestMenuItemKind.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\MenuListService\ResponseMenuListKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Peripherals\AccountKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Peripherals\ApplicationKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Peripherals\DataBaseKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Peripherals\MenuKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Basic\NestKind.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\Basic\IServiceContent.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\Basic\ResponseServiceKind.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\AccountAuthentication\ResponseAccountKind.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\ApplicationStatus\ApplicationStatusKind.cs" />
+    <Compile Include="Infrastructure\Kinds\Peripherals\LogKind.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\AccountAuthentication\RequestAccountKind.cs" />
+    <Compile Include="Infrastructure\Kinds\EventService\Basic\RequestServiceKind.cs" />
+    <Compile Include="Infrastructure\Parts\EventService\ApplicationStatusPart.cs" />
     <Compile Include="Infrastructure\Parts\Basic\DataBasePart.cs" />
     <Compile Include="Infrastructure\Parts\Basic\PathPart.cs" />
-    <Compile Include="Infrastructure\Parts\ServiceEvent\ServiceEventPart.cs" />
+    <Compile Include="Infrastructure\Parts\EventService\FrameModulePart.cs" />
+    <Compile Include="Infrastructure\Parts\EventService\EventServicePart.cs" />
     <Compile Include="Environment\EnvironmentMonitor.cs" />
     <Compile Include="Environment\IEnvironmentMonitor.cs" />
     <Compile Include="Events\RequestServiceEvent.cs" />
@@ -154,8 +164,8 @@
     <Compile Include="Services\Basic\PathService\PathManager.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\ICipherController.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\SMController.cs" />
-    <Compile Include="Services\Peripherals\JsonTextService\IJsonTextController.cs" />
-    <Compile Include="Services\Peripherals\JsonTextService\JsonTextController.cs" />
+    <Compile Include="Services\Peripherals\EventService\IEventServiceController.cs" />
+    <Compile Include="Services\Peripherals\EventService\EventServiceController.cs" />
     <Compile Include="Startup\KernelLauncher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

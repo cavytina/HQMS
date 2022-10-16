@@ -18,10 +18,10 @@ namespace HQMS.Frame.Kernel.Infrastructure
         [JsonProperty(PropertyName = "svc_name")]
         public string Name { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "svc_exp")]
         public string Content { get; set; }
 
-        [JsonProperty(PropertyName = "svc_des")]
+        [JsonProperty(PropertyName = "svc_desc")]
         public string Description { get; set; }
 
         [JsonIgnore]

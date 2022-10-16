@@ -22,7 +22,6 @@
         <WindowChrome CaptionHeight="68" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" NonClientFrameEdges="None"/>
     </WindowChrome.WindowChrome>
 
-
     <materialDesign:DialogHost Identifier="MainDialog"
                                DialogTheme="Inherit">
         <Grid>
@@ -35,7 +34,7 @@
                         prism:RegionManager.RegionName="MainHeaderRegion"/>
 
             <materialDesign:DrawerHost Grid.Row="1"
-                                   IsLeftDrawerOpen="{Binding IsLeftDrawerOpen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                       IsLeftDrawerOpen="{Binding MainWindowModel.IsLeftDrawerOpen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 <materialDesign:DrawerHost.LeftDrawerContent>
                     <ContentControl prism:RegionManager.RegionName="MainLeftDrawerRegion"/>
                 </materialDesign:DrawerHost.LeftDrawerContent>

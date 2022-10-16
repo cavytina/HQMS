@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Events;
 using Prism.Modularity;
+using Prism.Regions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Events;
+using HQMS.Frame.Kernel.Services;
+using HQMS.Frame.Kernel.Environment;
 using HQMS.Frame.Service.Peripherals;
+using HQMS.Frame.Service.Extension;
+using System.Windows;
 
 namespace HQMS.Frame.Service
 {
@@ -18,58 +23,100 @@ namespace HQMS.Frame.Service
     {
         IContainerProvider containerProvider;
         IModuleManager moduleManager;
+        IRegionManager regionManager;
         IEventAggregator eventAggregator;
+        IEnvironmentMonitor environmentMonitor;
+        IEventServiceController eventServiceController;
+
+        string responseJsonText;
 
         public ServiceLauncher(IContainerProvider containerProviderArgs)
         {
             containerProvider = containerProviderArgs;
             moduleManager = containerProviderArgs.Resolve<IModuleManager>();
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
+            regionManager= containerProviderArgs.Resolve<IRegionManager>();
+
+            environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
+            eventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
             moduleManager.LoadModuleCompleted += ModuleManager_LoadModuleCompleted;
         }
 
         private void ModuleManager_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs args)
         {
-            if (args.ModuleInfo.ModuleName== "LoginModule")
+            if (args.ModuleInfo.ModuleName == "LoginModule")
+                eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnAccountAuthenticationRequestService, ThreadOption.PublisherThread, false, x => x.Contains("AccountAuthenticationService"));
+
+            if (args.ModuleInfo.ModuleName == "MainLeftDrawerModule")
             {
-                eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestService);
+                eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnMenuListRequestService, ThreadOption.PublisherThread, false, x => x.Contains("MenuListService"));
+                eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnMenuItemRequestService, ThreadOption.PublisherThread, false, x => x.Contains("MenuItemService"));
             }
         }
 
-        private void OnRequestService(string requestServiceTextArgs)
+        private void OnMenuItemRequestService(string requestServiceTextArgs)
         {
-            JObject sevrObj  = JObject.Parse(requestServiceTextArgs);
+            JObject requestObj = JObject.Parse(requestServiceTextArgs);
+            JObject requestContentObj = requestObj["svc_cont"].Value<JObject>();
+            string requestMenuItemCodeText = requestContentObj["menu"].Value<string>();
 
-            if (sevrObj["svc_code"].Value<string>()== "01")
+            MenuModuleCatalogExtension menuModuleCatalogExtension = new MenuModuleCatalogExtension(containerProvider, requestMenuItemCodeText);
+            menuModuleCatalogExtension.Load();
+            moduleManager.Run();
+
+            regionManager.RequestNavigate("MainContentRegion", environmentMonitor.MenuSettings[requestMenuItemCodeText].Name);
+        }
+
+        private void OnMenuListRequestService(string requestServiceTextArgs)
+        {
+            IMenuListController menuListController= containerProvider.Resolve<IMenuListController>();
+
+            ResponseMenuListKind responseMenuList = new ResponseMenuListKind();
+            responseMenuList.MenuList.AddRange(menuListController.Load());
+
+            responseJsonText = eventServiceController.Response(EventServicePart.MenuListService, FrameModulePart.ServiceModule,
+                     FrameModulePart.KernelModule,
+                     true, "",
+                    responseMenuList);
+
+            eventAggregator.GetEvent<ResponseServiceEvent>().Publish(responseJsonText);
+        }
+
+        private void OnAccountAuthenticationRequestService(string requestServiceTextArgs)
+        {
+            string retMsg;
+            ResponseAccountKind responseAccountInfo;
+            JObject requestObj = JObject.Parse(requestServiceTextArgs);
+
+            JObject requestContentObj = requestObj["svc_cont"].Value<JObject>();
+
+            RequestAccountKind accountInfo = new RequestAccountKind
             {
-                JObject requestContentObj = sevrObj["svc_cry"].Value<JObject>();
+                Account = requestContentObj["account"].Value<string>(),
+                Password = requestContentObj["password"].Value<string>()
+            };
 
-                RequestAccountKind requestAccountInfo = new RequestAccountKind
-                {
-                    Account = requestContentObj["account"].Value<string>(),
-                    Password = requestContentObj["password"].Value<string>()
-                };
+            IAccountAuthenticationControler accountAuthenticationControler = containerProvider.Resolve<IAccountAuthenticationControler>();
+            if (accountAuthenticationControler.Validate(accountInfo, out retMsg))
+            {
+                responseAccountInfo = new ResponseAccountKind { Name = retMsg };
 
-                IAccountAuthenticationControler accountAuthenticationControler = containerProvider.Resolve<IAccountAuthenticationControler>();
-                bool ret = accountAuthenticationControler.Validate(requestAccountInfo);
-
-                ResponseAccountKind responseAccountInfo = new ResponseAccountKind { Name = "测试" };
-
-                ResponseServiceKind responseServiceInfo = new ResponseServiceKind
-                {
-                    Code = "01",
-                    Name = "AccountAuthenticationService",
-                    Description = "用户认证服务",
-                    ResponseModuleName = "ServiceModule",
-                    ReturnCode = ret == true ? "1" : "0",
-                    ErrorMessage = "",
-                    ServiceContent = responseAccountInfo
-                };
-
-                string responseAccountAuthenticationServiceJsonText = JsonConvert.SerializeObject(responseServiceInfo);
-
-                eventAggregator.GetEvent<ResponseServiceEvent>().Publish(responseAccountAuthenticationServiceJsonText);
+                responseJsonText = eventServiceController.Response(EventServicePart.AccountAuthenticationService, FrameModulePart.ServiceModule,
+                                     FrameModulePart.LoginModule,
+                                     true, "",
+                                    responseAccountInfo);
             }
+            else
+            {
+                responseAccountInfo = new ResponseAccountKind { Name = "" };
+
+                responseJsonText = eventServiceController.Response(EventServicePart.AccountAuthenticationService, FrameModulePart.ServiceModule,
+                     FrameModulePart.LoginModule,
+                     false, retMsg,
+                    responseAccountInfo);
+            }
+
+            eventAggregator.GetEvent<ResponseServiceEvent>().Publish(responseJsonText);
         }
     }
 }

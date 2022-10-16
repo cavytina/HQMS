@@ -76,9 +76,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\MenuModuleCatalogExtension.cs" />
     <Compile Include="Infrastructure\Kinds\tsysuserKind.cs" />
     <Compile Include="Peripherals\AccountAuthenticationService\AccountAuthenticationControler.cs" />
     <Compile Include="Peripherals\AccountAuthenticationService\IAccountAuthenticationControler.cs" />
+    <Compile Include="Peripherals\MenuListService\IMenuListController.cs" />
+    <Compile Include="Peripherals\MenuListService\MenuListService.cs" />
     <Compile Include="Peripherals\SecurityService\OneWayCipherService\IOneWayCipherController.cs" />
     <Compile Include="Peripherals\SecurityService\OneWayCipherService\MD5Controller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

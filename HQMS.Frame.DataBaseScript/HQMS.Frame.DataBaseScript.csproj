@@ -35,12 +35,13 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Network\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Native\System\Data.sql" />
     <Content Include="Native\System\Structure.sql" />
+    <Content Include="Network\Function.sql" />
+    <Content Include="Network\Procedure.sql" />
+    <Content Include="Network\Table.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HQMS.db">

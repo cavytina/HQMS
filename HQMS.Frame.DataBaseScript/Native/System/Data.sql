@@ -66,3 +66,55 @@ WHERE NOT EXISTS (SELECT 1 FROM System_ServiceEventSetting WHERE Code='01')
 INSERT INTO System_ServiceEventSetting (Code,Name,Content,Description,Rank,Flag)
 SELECT '02','ApplicationStatusService','','程序状态服务',2,True
 WHERE NOT EXISTS (SELECT 1 FROM System_ServiceEventSetting WHERE Code='02')
+
+INSERT INTO System_ServiceEventSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '03','MenuListService','','菜单清单服务',3,True
+WHERE NOT EXISTS (SELECT 1 FROM System_ServiceEventSetting WHERE Code='03')
+
+INSERT INTO System_ServiceEventSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '04','MenuItemService','','菜单项目服务',4,True
+WHERE NOT EXISTS (SELECT 1 FROM System_ServiceEventSetting WHERE Code='04')
+
+/*****************************************************
+System_MenuSetting                    程序菜单设置
+******************************************************/
+INSERT INTO System_MenuSetting (Code,Name, ReferName,Content,Description,SuperCode,SuperName,Rank,Flag)
+SELECT '01','ApplictionConfiguration','系统设置','','','','', 1,True
+WHERE NOT EXISTS (SELECT 1 FROM System_MenuSetting WHERE Code='01')
+
+INSERT INTO System_MenuSetting (Code,Name,ReferName,Content,Description,SuperCode,SuperName,Rank,Flag)
+SELECT '0101','MenuConfigurationModule','菜单设置','HQMS.Control.Extension.MenuConfiguration.dll',
+        'HQMS.Control.Extension.MenuConfiguration.MenuConfigurationModule, HQMS.Control.Extension.MenuConfiguration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
+        '01','系统设置',1,True
+WHERE NOT EXISTS (SELECT 1 FROM System_MenuSetting WHERE Code='0101')
+
+INSERT INTO System_MenuSetting (Code,Name, ReferName,Content,Description,SuperCode,SuperName,Rank,Flag)
+SELECT '02','PerformanceAssessment','绩效考核','','','','', 2,True
+WHERE NOT EXISTS (SELECT 1 FROM System_MenuSetting WHERE Code='02')
+
+INSERT INTO System_MenuSetting (Code,Name,ReferName,Content,Description,SuperCode,SuperName,Rank,Flag)
+SELECT '0201','PerformanceAssessmentConfigurationModule','绩效考核设置','HQMS.Control.Extension.PerformanceAssessmentConfiguration.dll',
+        'HQMS.Control.Extension.PerformanceAssessmentConfiguration.PerformanceAssessmentConfigurationModule, HQMS.Control.Extension.PerformanceAssessmentConfiguration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
+        '02','绩效考核',1,True
+WHERE NOT EXISTS (SELECT 1 FROM System_MenuSetting WHERE Code='0201')
+
+INSERT INTO System_MenuSetting (Code,Name,ReferName,Content,Description,SuperCode,SuperName,Rank,Flag)
+SELECT '0202','PerformanceAssessmentModule','绩效考核','HQMS.Control.Extension.PerformanceAssessment.dll',
+        'HQMS.Control.Extension.PerformanceAssessment.PerformanceAssessmentModule, HQMS.Control.Extension.PerformanceAssessment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null',
+        '02','绩效考核',2,True
+WHERE NOT EXISTS (SELECT 1 FROM System_MenuSetting WHERE Code='0202')
+
+/*****************************************************
+HQMS_PerformanceAssessment_MenuSetting         绩效考核菜单设置
+******************************************************/
+INSERT INTO HQMS_PerformanceAssessment_MenuSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '01','DataMapping','数据匹配','', 1,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_MenuSetting WHERE Code='01')
+
+INSERT INTO HQMS_PerformanceAssessment_MenuSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '02','DataQuerying','数据查询','', 2,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_MenuSetting WHERE Code='02')
+
+INSERT INTO HQMS_PerformanceAssessment_MenuSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '03','DataExporting','数据导出','', 3,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_MenuSetting WHERE Code='03')

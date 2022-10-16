@@ -20,6 +20,7 @@ namespace HQMS.Frame.Service
         {
             containerRegistryArgs.Register<IAccountAuthenticationControler, AccountAuthenticationControler>();
             containerRegistryArgs.Register<IOneWayCipherController, MD5Controller>();
+            containerRegistryArgs.Register<IMenuListController, MenuListController>();
         }
     }
 }

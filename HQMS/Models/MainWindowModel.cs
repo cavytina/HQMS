@@ -9,7 +9,9 @@ using Prism.Mvvm;
 using Prism.Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Events;
+using HQMS.Frame.Kernel.Services;
 using HQMS.Views;
 
 namespace HQMS.Models
@@ -18,28 +20,41 @@ namespace HQMS.Models
     {
         IContainerProvider containerProvider;
         IEventAggregator eventAggregator;
+        IEventServiceController eventServiceController;
+
+        string requestServiceEventJsonText;
+
+        bool isLeftDrawerOpen;
+        public bool IsLeftDrawerOpen
+        {
+            get => isLeftDrawerOpen;
+            set => SetProperty(ref isLeftDrawerOpen, value);
+        }
 
         public MainWindowModel(IContainerProvider containerProviderArgs)
         {
             containerProvider = containerProviderArgs;
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
+            eventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestService);
+            eventAggregator.GetEvent<RequestServiceEvent>().Subscribe(OnRequestApplicationStatusService, ThreadOption.PublisherThread, false, x => x.Contains("ApplicationStatusService"));
         }
 
-        private void OnRequestService(string requestServiceTextArgs)
+        private void OnRequestApplicationStatusService(string requestServiceTextArgs)
         {
-            JObject sevrObj = JObject.Parse(requestServiceTextArgs);
+            JObject requestObj = JObject.Parse(requestServiceTextArgs);
 
-            if (sevrObj["svc_code"].Value<string>() == "02")
+            JObject requestContentObj = requestObj["svc_cont"].Value<JObject>();
+
+            if (requestContentObj["App_Stas"].Value<string>() == "LoginWindowReLoad")
             {
-                JObject requestContentObj = sevrObj["svc_cry"].Value<JObject>();
-                if (requestContentObj["App_Stas"].Value<string>() == "LoginWindowReLoad")
-                {
-                    Window loginWindow = containerProvider.Resolve<LoginWindow>();
-                    loginWindow.Show();
-                }
+                Window loginWindow = containerProvider.Resolve<LoginWindow>();
+                loginWindow.Show();
             }
+            else if (requestContentObj["App_Stas"].Value<string>() == "LeftDrawerOpen")
+                IsLeftDrawerOpen = true;
+            else if (requestContentObj["App_Stas"].Value<string>() == "LeftDrawerClose")
+                IsLeftDrawerOpen = false;
         }
     }
 }

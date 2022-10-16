@@ -10,13 +10,23 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Events;
+using HQMS.Frame.Kernel.Services;
 
 namespace HQMS.Frame.Control.Login.Models
 {
     public class ContentModel : BindableBase
     {
         IEventAggregator eventAggregator;
+        IEventServiceController EventServiceController;
         bool ret;
+        string requestJsonText;
+
+        string returnMessage;
+        public string ReturnMessage
+        {
+            get => returnMessage;
+            set => returnMessage = value;
+        }
 
         string account;
         public string Account
@@ -35,6 +45,7 @@ namespace HQMS.Frame.Control.Login.Models
         public ContentModel(IContainerProvider containerProviderArgs)
         {
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
+            EventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
         }
 
         public bool IsLoginSucceed()
@@ -47,56 +58,37 @@ namespace HQMS.Frame.Control.Login.Models
                 Password = Password
             };
 
-            RequestServiceKind requestAccountAuthenticationService = new RequestServiceKind
-            {
-                Code = "01",
-                Name = "AccountAuthenticationService",
-                Description = "用户认证服务",
-                RequestModuleName = "LoginModule",
-                ServiceContent = accountInfo
-            };
+            requestJsonText = EventServiceController.Request(EventServicePart.AccountAuthenticationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, accountInfo);
 
-            string requestAccountAuthenticationServiceJsonText = JsonConvert.SerializeObject(requestAccountAuthenticationService);
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestJsonText);
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestAccountAuthenticationServiceJsonText);
-
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnResponseService);
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountAuthenticationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountAuthenticationService"));
 
             return ret;
         }
 
-        private void OnResponseService(string responseServiceTextArgs)
+        private void OnAccountAuthenticationResponseService(string responseServiceTextArgs)
         {
+            string ret_msg = string.Empty;
+
             JObject respSvcObj = JObject.Parse(responseServiceTextArgs);
 
-            if (respSvcObj["svc_code"].Value<string>() == "01" && respSvcObj["ret_code"].Value<string>() == "1")
-            {
+            if (respSvcObj["ret_code"].Value<string>() == "1")
                 ret = true;
-
-                JObject responseContentObj = respSvcObj["svc_cry"].Value<JObject>();
-                ResponseAccountKind responseAccountInfo = new ResponseAccountKind { Name = responseContentObj["name"].Value<string>() };
-            }
+            else
+                ReturnMessage = respSvcObj["ret_msg"].Value<string>();
         }
 
         public void NavigateToMainWindow()
         {
-            ApplicationStatusKind applicationStatus = new ApplicationStatusKind
+            ApplicationStatusKind applicationStatusInfo = new ApplicationStatusKind
             {
                 ApplicationStatus = ApplicationStatusPart.LoginWindowSucceed
             };
 
-            RequestServiceKind requestWindowStatusService = new RequestServiceKind
-            {
-                Code = "02",
-                Name = "WindowStatusService",
-                Description = "窗口状态服务",
-                RequestModuleName = "LoginModule",
-                ServiceContent = applicationStatus
-            };
+            requestJsonText = EventServiceController.Request(EventServicePart.ApplicationStatusService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, applicationStatusInfo);
 
-            string requestWindowStatusServiceJsonText = JsonConvert.SerializeObject(requestWindowStatusService);
-
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestWindowStatusServiceJsonText);
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestJsonText);
         }
     }
 }

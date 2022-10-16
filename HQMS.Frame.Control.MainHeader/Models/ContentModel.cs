@@ -15,13 +15,24 @@ namespace HQMS.Frame.Control.MainHeader.Models
     public class ContentModel : BindableBase
     {
         IEventAggregator eventAggregator;
-        IJsonTextController jsonTextController;
+        IEventServiceController eventServiceController;
         string requestServiceEventJsonText;
+
+        bool isLeftDrawerOpen;
+        public bool IsLeftDrawerOpen
+        {
+            get => isLeftDrawerOpen;
+            set
+            {
+                SetProperty(ref isLeftDrawerOpen, value);
+                OnLeftDrawerChanged(isLeftDrawerOpen);
+            }
+        }
 
         public ContentModel(IContainerProvider containerProviderArgs)
         {
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
-            jsonTextController = containerProviderArgs.Resolve<IJsonTextController>();
+            eventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
         }
 
         public void NavigateToLoginWindow()
@@ -31,7 +42,21 @@ namespace HQMS.Frame.Control.MainHeader.Models
                 ApplicationStatus = ApplicationStatusPart.LoginWindowReLoad
             };
 
-            requestServiceEventJsonText = jsonTextController.ConvertToText(ServiceEventPart.ApplicationStatusService, applicationStatus);
+            requestServiceEventJsonText = eventServiceController.Request(EventServicePart.ApplicationStatusService, FrameModulePart.MainHeaderModule,
+                                            FrameModulePart.ApplictionModule, applicationStatus);
+
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestServiceEventJsonText);
+        }
+
+        private void OnLeftDrawerChanged(bool isCheckArgs)
+        {
+            ApplicationStatusKind applicationStatus = new ApplicationStatusKind
+            {
+                ApplicationStatus = isCheckArgs == false ? ApplicationStatusPart.LeftDrawerClose : ApplicationStatusPart.LeftDrawerOpen
+            };
+
+            requestServiceEventJsonText = eventServiceController.Request(EventServicePart.ApplicationStatusService, FrameModulePart.MainHeaderModule,
+                                            FrameModulePart.ApplictionModule, applicationStatus);
 
             eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestServiceEventJsonText);
         }

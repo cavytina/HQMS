@@ -15,8 +15,19 @@ namespace HQMS.Frame.Kernel.Environment
     {
         ValidationResults ValidationResults { get; set; }
 
+        /// <summary>
+        /// 系统状态信息
+        /// </summary>
+        ApplicationKind ApplicationSetting { get; set; }
+
+        /// <summary>
+        /// 登录账户信息
+        /// </summary>
+        AccountKind AccountSetting { get; set; }
+
         PathCollecter PathSetting { get; set; }
         LogCollecter LogSetting { get; set; }
         DataBaseCollecter DataBaseSetting { get; set; }
+        MenuCollerter MenuSettings { get; set; }
     }
 }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Regions;
+using MaterialDesignThemes.Wpf;
 using HQMS.Models;
 
 namespace HQMS.ViewModels
@@ -26,6 +28,20 @@ namespace HQMS.ViewModels
             set => SetProperty(ref workAreaHeight, value);
         }
 
+        ISnackbarMessageQueue messageQueue;
+        public ISnackbarMessageQueue MessageQueue
+        {
+            get => messageQueue;
+            set => SetProperty(ref messageQueue, value);
+        }
+
+        IRegionManager regionManager;
+        public IRegionManager RegionManager
+        {
+            get => regionManager;
+            set => SetProperty(ref regionManager, value);
+        }
+
         MainWindowModel mainWindowModel;
         public MainWindowModel MainWindowModel
         {
@@ -39,6 +55,9 @@ namespace HQMS.ViewModels
 
             WorkAreaWidth = SystemParameters.WorkArea.Width;
             WorkAreaHeight = SystemParameters.WorkArea.Height;
+
+            MessageQueue = containerProviderArgs.Resolve<ISnackbarMessageQueue>();
+            RegionManager = containerProviderArgs.Resolve<IRegionManager>();
         }
     }
 }

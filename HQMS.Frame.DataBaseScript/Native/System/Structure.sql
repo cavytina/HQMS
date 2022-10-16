@@ -79,4 +79,37 @@ CREATE TABLE System_ServiceEventSetting
     Flag BOOLEAN                    --是否启用
 );
 
-SELECT 
+/*****************************************************
+System_MenuSetting           程序菜单设置
+******************************************************/
+
+drop table if exists System_MenuSetting;
+
+CREATE TABLE System_MenuSetting
+(
+    Code VARCHAR primary key,       --菜单代码
+    Name VARCHAR,                   --菜单名称
+    ReferName VARCHAR,              --中文菜单名称
+    Content VARCHAR,                --菜单路径
+    Description VARCHAR,            --菜单类型
+    SuperCode   VARCHAR,            --上级菜单代码
+    SuperName   VARCHAR,            --上级菜单名称
+    Rank INT,                       --排序
+    Flag BOOLEAN                    --是否启用
+);
+
+/*****************************************************
+HQMS_PerformanceAssessment_MenuSetting         绩效考核菜单设置
+******************************************************/
+
+drop table if exists HQMS_PerformanceAssessment_MenuSetting;
+
+CREATE TABLE HQMS_PerformanceAssessment_MenuSetting
+(
+    Code VARCHAR primary key,       --菜单代码
+    Name VARCHAR,                   --菜单名称
+    Content VARCHAR,                --保留
+    Description VARCHAR,            --保留
+    Rank INT,                       --排序
+    Flag BOOLEAN                    --是否启用
+);

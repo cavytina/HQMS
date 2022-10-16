@@ -18,9 +18,9 @@ namespace HQMS.Frame.Control.MainLeftDrawer.Views
     /// <summary>
     /// ContentView.xaml 的交互逻辑
     /// </summary>
-    public partial class ContentView : UserControl
+    public partial class MainLeftDrawerView : UserControl
     {
-        public ContentView()
+        public MainLeftDrawerView()
         {
             InitializeComponent();
         }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public enum ApplicationStatusPart
+    public class RequestMenuItemKind: IServiceContent
     {
-        LoginWindowReLoad = 1,
-        LoginWindowSucceed = 2
+        [JsonProperty(PropertyName = "menu")]
+        public string MenuItemCode { get; set; }
     }
 }

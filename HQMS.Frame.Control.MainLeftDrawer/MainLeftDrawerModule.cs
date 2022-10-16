@@ -15,7 +15,7 @@ namespace HQMS.Frame.Control.MainLeftDrawer
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion("MainLeftDrawerRegion", typeof(ContentView));
+            regionManager.RegisterViewWithRegion("MainLeftDrawerRegion", typeof(MainLeftDrawerView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

@@ -3,34 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Prism.Modularity;
 using Prism.Ioc;
-using Microsoft.Practices.EnterpriseLibrary.Validation;
-using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+using Prism.Modularity;
 using HQMS.Frame.Kernel.Environment;
 using HQMS.Frame.Kernel.Services;
-using HQMS.Frame.Kernel.Extension;
-using HQMS.Frame.Kernel.Infrastructure;
-using HQMS.Frame.Kernel.Events;
 
 namespace HQMS.Frame.Kernel
 {
     public class KernelModule : IModule
     {
-        IContainerProvider containerProvider;
-        IModuleManager moduleManager;
-        IEnvironmentMonitor environmentMonitor;
-        IPathManager pathManager;
-        ILogManager logManager;
-        IDataBaseManager dataBaseManager;
+        KernelLauncher kernelLauncher;
 
         public void OnInitialized(IContainerProvider containerProviderArgs)
         {
-            containerProvider = containerProviderArgs;
-
-            InitializeAndValidationServices();
-
-            LoadFrameModuleCatalog();
+            kernelLauncher = new KernelLauncher(containerProviderArgs);
+            kernelLauncher.Initialize();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistryArgs)
@@ -46,41 +33,7 @@ namespace HQMS.Frame.Kernel
             containerRegistryArgs.Register<ILogManager, LogManager>();
             containerRegistryArgs.Register<IDataBaseManager, DataBaseManager>();
 
-            containerRegistryArgs.Register<IJsonTextController, JsonTextController>();
-        }
-
-        private void InitializeAndValidationServices()
-        {
-            environmentMonitor = containerProvider.Resolve<IEnvironmentMonitor>();
-
-            pathManager = containerProvider.Resolve<IPathManager>();
-            pathManager.Initialize();
-
-
-            Validator<PathManager> pathManagerValidator = ValidationFactory.CreateValidator<PathManager>();
-            environmentMonitor.ValidationResults.AddAllResults(pathManagerValidator.Validate(pathManager));
-
-            logManager = containerProvider.Resolve<ILogManager>();
-            logManager.Initialize();
-
-            Validator<LogManager> logManagerValidator = ValidationFactory.CreateValidator<LogManager>();
-            environmentMonitor.ValidationResults.AddAllResults(logManagerValidator.Validate(logManager));
-            if (environmentMonitor.ValidationResults.IsValid)
-                logManager.Load();
-
-            dataBaseManager = containerProvider.Resolve<IDataBaseManager>();
-            dataBaseManager.Initialize();
-
-            dataBaseManager.Load();
-        }
-
-        private void LoadFrameModuleCatalog()
-        {
-            moduleManager = containerProvider.Resolve<IModuleManager>();
-            FrameModuleCatalogExtension frameModuleCatalogExtension = new FrameModuleCatalogExtension(containerProvider);
-            frameModuleCatalogExtension.Load();
-
-            moduleManager.Run();
+            containerRegistryArgs.Register<IEventServiceController, EventServiceController>();
         }
     }
 }
