@@ -8,80 +8,93 @@ using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Environment;
+using HQMS.Frame.Kernel.Extension;
 
 namespace HQMS.Frame.Kernel.Services
 {
     [HasSelfValidation]
     public class LogManager : ILogManager
     {
-        /// <summary>
-        /// 默认日志文件路径
-        /// </summary>
-        string defaultTextLogFilePath;
-
-        IContainerProvider containerProvider;
         IEnvironmentMonitor environmentMonitor;
-        ILogController textLogController;
+        ILogController dataBaseLogController;
+        ILogController servicEventLogController;
         IDataBaseController nativeController;
 
-        string sqlString;
+        string sqlSentence;
         object retArg;
 
         public LogManager(IContainerProvider containerProviderArgs)
         {
-            containerProvider = containerProviderArgs;
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
+            dataBaseLogController = containerProviderArgs.Resolve<ILogController>(LogPart.DataBase.ToString());
+            servicEventLogController = containerProviderArgs.Resolve<ILogController>(LogPart.ServicEvent.ToString());
         }
 
         public void Initialize()
         {
-            defaultTextLogFilePath = AppDomain.CurrentDomain.BaseDirectory + AppDomain.CurrentDomain.FriendlyName.Replace("exe", "txt");
+            dataBaseLogController.Initialize();
+            servicEventLogController.Initialize();
 
-            if (!environmentMonitor.LogSetting.Contains("TextLog"))
+            if (!environmentMonitor.LogSetting.Exists(x => x.Name == LogPart.DataBase.ToString()))
                 environmentMonitor.LogSetting.Add(new LogKind
                 {
-                    Code = "01",
-                    Name = "TextLog",
-                    Content = defaultTextLogFilePath,
-                    Description = "文本日志",
-                    Rank = 1,
-                    Flag = true
+                    Code = Convert.ToInt32(LogPart.DataBase).ToString().PadLeft(2, '0'),
+                    Name = LogPart.DataBase.ToString(),
+                    Content = dataBaseLogController.TextLogFilePath,
+                    Description = EnmuExtension.GetDescription(LogPart.DataBase),
+                    Rank = Convert.ToInt32(LogPart.DataBase),
+                    Flag = true,
+                    LogController = dataBaseLogController
                 });
             else
-                environmentMonitor.LogSetting["TextLog"].Content = defaultTextLogFilePath;
+            {
+                environmentMonitor.LogSetting[LogPart.DataBase.ToString()].Content = dataBaseLogController.TextLogFilePath;
+                environmentMonitor.LogSetting[LogPart.DataBase.ToString()].LogController = dataBaseLogController;
+            }
+
+            if (!environmentMonitor.LogSetting.Exists(x => x.Name == LogPart.ServicEvent.ToString()))
+                environmentMonitor.LogSetting.Add(new LogKind
+                {
+                    Code = Convert.ToInt32(LogPart.ServicEvent).ToString().PadLeft(2, '0'),
+                    Name = LogPart.ServicEvent.ToString(),
+                    Content = servicEventLogController.TextLogFilePath,
+                    Description = EnmuExtension.GetDescription(LogPart.ServicEvent),
+                    Rank = Convert.ToInt32(LogPart.ServicEvent),
+                    Flag = true,
+                    LogController = servicEventLogController
+                });
+            else
+            {
+                environmentMonitor.LogSetting[LogPart.ServicEvent.ToString()].Content = servicEventLogController.TextLogFilePath;
+                environmentMonitor.LogSetting[LogPart.ServicEvent.ToString()].LogController = servicEventLogController;
+            }
         }
 
         [SelfValidation]
         public void Validate(ValidationResults results)
         {
-            if (string.IsNullOrEmpty(defaultTextLogFilePath))
+            if (string.IsNullOrEmpty(dataBaseLogController.TextLogFilePath))
                 results.AddResult(new ValidationResult("默认日志文件不能为空!", this, "defaultTextLogFilePath", "", null));
-        }
-
-        public void Load()
-        {
-            textLogController = containerProvider.Resolve<ILogController>();
-            environmentMonitor.LogSetting["TextLog"].LogController = textLogController;
         }
 
         public void Save()
         {
-            nativeController = environmentMonitor.DataBaseSetting.GetDataBaseController("Native");
+            nativeController = environmentMonitor.DataBaseSetting.GetContent("Native");
 
             if (nativeController != null)
             {
                 foreach (LogKind logKind in environmentMonitor.LogSetting)
                 {
-                    sqlString = "SELECT 1 FROM System_LogSetting WHERE Name='" + logKind.Name + "'";
-                    nativeController.ExecuteScalar(sqlString, out retArg);
+                    sqlSentence = "SELECT 1 FROM System_LogSetting WHERE Name='" + logKind.Name + "'";
+                    nativeController.ExecuteScalar(sqlSentence, out retArg);
 
                     if (retArg != null)
-                        sqlString = "UPDATE System_PathSetting SET Content='" + logKind.Content + "' WHERE Name='" + logKind.Name + "'";
+                        sqlSentence = "UPDATE System_PathSetting SET Content='" + logKind.Content + "' WHERE Name='" + logKind.Name + "'";
                     else
-                        sqlString = "INSERT INTO System_LogSetting (Code,Name,Content,Description,Rank,Flag)" +
+                        sqlSentence = "INSERT INTO System_LogSetting (Code,Name,Content,Description,Rank,Flag)" +
                         " VALUES ('" + logKind.Code + "','" + logKind.Name + "','" + logKind.Content +
                         "','" + logKind.Description + "'," + logKind.Rank + "," + logKind.Flag + ")";
-                    nativeController.Execute(sqlString);
+                    nativeController.Execute(sqlSentence);
                 }
             }
         }

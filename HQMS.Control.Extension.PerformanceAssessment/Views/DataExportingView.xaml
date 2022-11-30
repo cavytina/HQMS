@@ -4,9 +4,90 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HQMS.Control.Extension.PerformanceAssessment.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="DataExportingView"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal">
+            <TextBlock Text="开始日期"
+                       VerticalAlignment="Center"
+                       Style="{DynamicResource MaterialDesignTextBlock}"/>
+            <DatePicker Margin="8 0 0 0"
+                        md:CalendarAssist.IsHeaderVisible="False"
+                        Width="100"
+                        SelectedDate="{Binding DataExportingModel.BeginDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        SelectedDateFormat="Short"/>
+            <TextBlock Text="结束日期"
+                       Margin="32 0 0 0"
+                       VerticalAlignment="Center"
+                       Style="{DynamicResource MaterialDesignTextBlock}"/>
+            <DatePicker Margin="8 0 0 0"
+                        md:CalendarAssist.IsHeaderVisible="False"
+                        Width="100"
+                        SelectedDate="{Binding DataExportingModel.EndDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Margin="32 0 0 0"
+                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    Content="汇总查询"
+                    Command="{Binding MasterCommand}"/>
+
+            <Button Margin="32 0 0 0"
+                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    Content="显示明细"
+                    Command="{Binding DetailCommand}"/>
+        </StackPanel>
+
+        <ListView Grid.Row="1"
+                  Grid.Column="0"
+                  ItemsSource="{Binding DataExportingModel.Masters}"
+                  SelectedValue="{Binding DataExportingModel.CurrentMaster}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="代码"
+                                    DisplayMemberBinding="{Binding code}"/>
+                    <GridViewColumn Header="项目"
+                                    DisplayMemberBinding="{Binding name}"/>
+                    <GridViewColumn Header="值"
+                                    DisplayMemberBinding="{Binding value}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding=""  Value=""
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="类别"
+                                    DisplayMemberBinding="{Binding category}"/>
+                    <GridViewColumn Header="是否显示"
+                                    DisplayMemberBinding="{Binding isextend}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Separator Grid.Row="1"
+                   Grid.Column="1"
+                   Style="{StaticResource MaterialDesignSeparator}">
+            <Separator.LayoutTransform>
+                <RotateTransform Angle="90"/>
+            </Separator.LayoutTransform>
+        </Separator>
     </Grid>
 </UserControl>

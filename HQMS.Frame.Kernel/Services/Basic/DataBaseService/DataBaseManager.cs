@@ -17,7 +17,7 @@ namespace HQMS.Frame.Kernel.Services
         IDataBaseController nativeBaseController;
         IDataBaseController baglDBController;
 
-        string sqliteConnectionString, sqliteCipherConnectionString;
+        string nativeDataBaseFilePath, sqliteConnectionString, sqliteCipherConnectionString;
         string baglDBConnectionString, baglDBCipherConnectionString;
 
         string sqlString;
@@ -46,9 +46,10 @@ namespace HQMS.Frame.Kernel.Services
 
         private void InnerLoad()
         {
-            sqliteConnectionString = "Data Source= " + environmentMonitor.PathSetting["NativeDataBaseFilePath"].Content;
+            nativeDataBaseFilePath = environmentMonitor.PathSetting.GetContent("NativeDataBaseFilePath");
+            sqliteConnectionString = "Data Source= " + nativeDataBaseFilePath;
 
-            if (!environmentMonitor.DataBaseSetting.Contains("Native"))
+            if (!environmentMonitor.DataBaseSetting.Exists(x => x.Name == DataBasePart.Native.ToString()))
                 environmentMonitor.DataBaseSetting.Add(new DataBaseKind
                 {
                     Code = "01",
@@ -68,7 +69,7 @@ namespace HQMS.Frame.Kernel.Services
 
         public void Load()
         {
-            if (!environmentMonitor.DataBaseSetting.Contains("BAGLDB"))
+            if (!environmentMonitor.DataBaseSetting.Exists(x => x.Name == DataBasePart.BAGLDB.ToString()))
                 environmentMonitor.DataBaseSetting.Add(new DataBaseKind
                 {
                     Code = "02",

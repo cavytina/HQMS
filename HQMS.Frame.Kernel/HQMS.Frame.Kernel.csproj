@@ -105,7 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\RelayResponseServicEvent.cs" />
+    <Compile Include="Extension\EnmuExtension.cs" />
     <Compile Include="Infrastructure\Collecters\DataBaseCollecter.cs" />
+    <Compile Include="Infrastructure\Collecters\ICollecter.cs" />
     <Compile Include="Infrastructure\Collecters\LogCollecter.cs" />
     <Compile Include="Infrastructure\Collecters\MenuCollerter.cs" />
     <Compile Include="Infrastructure\Collecters\PathCollecter.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Infrastructure\Kinds\Peripherals\LogKind.cs" />
     <Compile Include="Infrastructure\Kinds\EventService\AccountAuthentication\RequestAccountKind.cs" />
     <Compile Include="Infrastructure\Kinds\EventService\Basic\RequestServiceKind.cs" />
+    <Compile Include="Infrastructure\Parts\Basic\LogPart.cs" />
     <Compile Include="Infrastructure\Parts\EventService\ApplicationStatusPart.cs" />
     <Compile Include="Infrastructure\Parts\Basic\DataBasePart.cs" />
     <Compile Include="Infrastructure\Parts\Basic\PathPart.cs" />
@@ -152,15 +155,17 @@
     </Compile>
     <Compile Include="Services\Basic\DataBaseService\NetworkDataBaseService\BAGLDBController.cs" />
     <Compile Include="Services\Basic\DataBaseService\DataBaseControllerBase.cs" />
-    <Compile Include="Services\Basic\DataBaseService\DataBaseLauncher.cs" />
+    <Compile Include="Services\Basic\DataBaseService\DataBaseManager.cs" />
     <Compile Include="Services\Basic\DataBaseService\IDataBaseManager.cs" />
+    <Compile Include="Services\Basic\LogService\DataBaseLogContoller.cs" />
     <Compile Include="Services\Basic\LogService\ILogManager.cs" />
+    <Compile Include="Services\Basic\LogService\LogControllerBase.cs" />
     <Compile Include="Services\Basic\LogService\LogManager.cs" />
+    <Compile Include="Services\Basic\LogService\ServicEventLogController.cs" />
     <Compile Include="Services\Basic\PathService\IPathManager.cs" />
     <Compile Include="Services\Basic\DataBaseService\IDataBaseController.cs" />
     <Compile Include="Services\Basic\DataBaseService\NativeDataBaseService\NativeBaseController.cs" />
     <Compile Include="Services\Basic\LogService\ILogController.cs" />
-    <Compile Include="Services\Basic\LogService\TextLogController.cs" />
     <Compile Include="Services\Basic\PathService\PathManager.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\ICipherController.cs" />
     <Compile Include="Services\Basic\SecurityService\CipherService\SMController.cs" />

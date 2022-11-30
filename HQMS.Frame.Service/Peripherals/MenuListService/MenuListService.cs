@@ -13,13 +13,13 @@ namespace HQMS.Frame.Service.Peripherals
     public class MenuListController : IMenuListController
     {
         IEnvironmentMonitor environmentMonitor;
-        IDataBaseController dataBaseController;
+        IDataBaseController nativeController;
         string queryText;
 
         public MenuListController (IContainerProvider containerProviderArgs)
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            dataBaseController = environmentMonitor.DataBaseSetting.GetDataBaseController("Native");
+            nativeController = environmentMonitor.DataBaseSetting.GetContent("Native");
         }
 
         public List<MenuKind> Load()
@@ -27,7 +27,7 @@ namespace HQMS.Frame.Service.Peripherals
             List<MenuKind> retHub = new List<MenuKind>();
 
             queryText = "SELECT Code,Name, ReferName,Content,Description,SuperCode,SuperName,Rank,Flag FROM System_MenuSetting";
-            if (dataBaseController.Query<MenuKind>(queryText,out retHub))
+            if (nativeController.Query<MenuKind>(queryText,out retHub))
             {
                 var ret = from retMenuHub in retHub
                           where retMenuHub.Flag

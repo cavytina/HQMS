@@ -11,6 +11,6 @@ namespace HQMS.Frame.Kernel.Services
     {
         string Request(EventServicePart eventServiceArgs, FrameModulePart sourceModuleArgs, FrameModulePart targetModuleArgs, IServiceContent serviceContentArgs);
 
-        string Response(EventServicePart eventServiceArgs, FrameModulePart sourceModuleArgs, FrameModulePart targetModuleArgs, bool returnCodeArgs, string returnMessageArgs, IServiceContent serviceContentArgs);
+        string Response(EventServicePart eventServiceArgs, FrameModulePart sourceModuleArgs,FrameModulePart targetModuleArgs, bool returnCodeArgs, string returnMessageArgs, IServiceContent serviceContentArgs);
     }
 }

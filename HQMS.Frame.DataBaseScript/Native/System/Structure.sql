@@ -99,17 +99,19 @@ CREATE TABLE System_MenuSetting
 );
 
 /*****************************************************
-HQMS_PerformanceAssessment_MenuSetting         绩效考核菜单设置
+HQMS_PerformanceAssessment_DictionarySetting         绩效考核基础数据设置
 ******************************************************/
 
-drop table if exists HQMS_PerformanceAssessment_MenuSetting;
+drop table if exists HQMS_PerformanceAssessment_DictionarySetting;
 
-CREATE TABLE HQMS_PerformanceAssessment_MenuSetting
+CREATE TABLE HQMS_PerformanceAssessment_DictionarySetting
 (
     Code VARCHAR primary key,       --菜单代码
     Name VARCHAR,                   --菜单名称
     Content VARCHAR,                --保留
     Description VARCHAR,            --保留
+    CategoryCode  VARCHAR,          --类别代码
+    CategoryName  VARCHAR,          --类别名称
     Rank INT,                       --排序
     Flag BOOLEAN                    --是否启用
 );

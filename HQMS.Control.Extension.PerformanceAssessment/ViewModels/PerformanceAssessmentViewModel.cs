@@ -29,19 +29,19 @@ namespace HQMS.Control.Extension.PerformanceAssessment.ViewModels
 
         IRegionManager regionManager;
 
-        public DelegateCommand MenuItemSelectedChangedCommand { get; private set; }
+        public DelegateCommand MenuSelectedChangedCommand { get; private set; }
 
         public PerformanceAssessmentViewModel (IContainerProvider containerProviderArgs)
         {
             regionManager = containerProviderArgs.Resolve<IRegionManager>();
             PerformanceAssessmentModel = new PerformanceAssessmentModel(containerProviderArgs);
 
-            MenuItemSelectedChangedCommand = new DelegateCommand(OnMenuItemSelectedChanged);
+            MenuSelectedChangedCommand = new DelegateCommand(OnMenuSelectedChanged);
         }
 
-        private void OnMenuItemSelectedChanged()
+        private void OnMenuSelectedChanged()
         {
-            switch (PerformanceAssessmentModel.CurrentMenuItemName)
+            switch (PerformanceAssessmentModel.CurrentMenuName)
             {
                 case "DataMapping": regionManager.RequestNavigate("PerformanceAssessmentContentRegion", "DataMappingView"); break;
                 case "DataQuerying": regionManager.RequestNavigate("PerformanceAssessmentContentRegion", "DataQueryingView"); break;

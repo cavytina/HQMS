@@ -7,84 +7,22 @@ using System.Threading.Tasks;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public class PathCollecter : IList<BaseKind>
+    public class PathCollecter : List<BaseKind>, ICollecter<string>
     {
-        IList<BaseKind> Paths = new List<BaseKind>();
-
-        public bool IsReadOnly => Paths.IsReadOnly;
-
-        public int Count => Paths.Count;
-
-        public BaseKind this[int index]
+        /// <summary>
+        /// 获取指定程序路径
+        /// </summary>
+        /// <param name="nameIndex">以字符串形式传入PathPart列举值:ApplictionCatalogue,NativeDataBaseFilePath,TextLogFilePath</param>
+        /// <returns></returns>
+        public string GetContent(string nameIndex)
         {
-            get => Paths[index];
-            set => Paths[index] = value;
+            return Find(x => x.Name == nameIndex).Content;
         }
 
         public BaseKind this[string nameIndex]
         {
-            set { Paths[Paths.IndexOf(Paths.FirstOrDefault(x => x.Name == nameIndex))] = value; }
-            get { return Paths[Paths.IndexOf(Paths.FirstOrDefault(x => x.Name == nameIndex))]; }
-        }
-
-        public string GetContent(string nameArgs)
-        {
-            return Paths.FirstOrDefault(x => x.Name == nameArgs).Content;
-        }
-
-        public void Add(BaseKind item)
-        {
-            Paths.Add(item);
-        }
-
-        public void Clear()
-        {
-            Paths.Clear();
-        }
-
-        public bool Contains(string nameItem)
-        {
-            return Paths.FirstOrDefault(x => x.Name == nameItem) != null ? true : false;
-        }
-
-        public bool Contains(BaseKind Item)
-        {
-            return Paths.Contains(Item);
-        }
-
-        public void CopyTo(BaseKind[] array, int arrayIndex)
-        {
-            Paths.CopyTo(array, arrayIndex);
-        }
-
-        public IEnumerator<BaseKind> GetEnumerator()
-        {
-            return Paths.GetEnumerator();
-        }
-
-        public bool Remove(BaseKind item)
-        {
-            return Paths.Remove(item);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable)Paths).GetEnumerator();
-        }
-
-        public int IndexOf(BaseKind item)
-        {
-            return Paths.IndexOf(item);
-        }
-
-        public void Insert(int index, BaseKind item)
-        {
-            Paths.Insert(index, item);
-        }
-
-        public void RemoveAt(int index)
-        {
-            Paths.RemoveAt(index);
+            set { base[FindIndex(x => x.Name == nameIndex)] = value; }
+            get { return Find(x => x.Name == nameIndex); }
         }
     }
 }

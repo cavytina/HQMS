@@ -105,16 +105,64 @@ SELECT '0202','PerformanceAssessmentModule','绩效考核','HQMS.Control.Extensi
 WHERE NOT EXISTS (SELECT 1 FROM System_MenuSetting WHERE Code='0202')
 
 /*****************************************************
-HQMS_PerformanceAssessment_MenuSetting         绩效考核菜单设置
+HQMS_PerformanceAssessment_DictionarySetting         绩效考核字典数据设置
 ******************************************************/
-INSERT INTO HQMS_PerformanceAssessment_MenuSetting (Code,Name,Content,Description,Rank,Flag)
-SELECT '01','DataMapping','数据匹配','', 1,True
-WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_MenuSetting WHERE Code='01')
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0101','DataMapping','数据匹配','','01','菜单设置',1,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0101')
 
-INSERT INTO HQMS_PerformanceAssessment_MenuSetting (Code,Name,Content,Description,Rank,Flag)
-SELECT '02','DataQuerying','数据查询','', 2,True
-WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_MenuSetting WHERE Code='02')
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0102','DataQuerying','数据查询','','01','菜单设置', 2,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0102')
 
-INSERT INTO HQMS_PerformanceAssessment_MenuSetting (Code,Name,Content,Description,Rank,Flag)
-SELECT '03','DataExporting','数据导出','', 3,True
-WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_MenuSetting WHERE Code='03')
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0103','DataExporting','数据导出','','01','菜单设置', 3,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0103')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0201','January','一月','','02','月份设置',1,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0201')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0202','February','二月','','02','月份设置', 2,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0202')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0203','March','三月','','02','月份设置', 3,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0203')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0204','April','四月','','02','月份设置', 4,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0204')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0205','May','五月','','02','月份设置', 5,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0205')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0206','June','六月','','02','月份设置', 6,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0206')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0207','July','七月','','02','月份设置', 7,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0207')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0208','August','八月','','02','月份设置', 8,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0208')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0209','September','九月','','02','月份设置', 9,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0209')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0210','October','十月','','02','月份设置', 10,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0210')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0211','November','十一月','','02','月份设置', 11,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0211')
+
+INSERT INTO HQMS_PerformanceAssessment_DictionarySetting (Code,Name,Content,Description,CategoryCode,CategoryName,Rank,Flag)
+SELECT '0212','December','十二月','','02','月份设置', 12,True
+WHERE NOT EXISTS (SELECT 1 FROM HQMS_PerformanceAssessment_DictionarySetting WHERE Code='0212')

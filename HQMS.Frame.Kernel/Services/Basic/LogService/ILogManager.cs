@@ -14,11 +14,6 @@ namespace HQMS.Frame.Kernel.Services
         void Initialize();
 
         /// <summary>
-        /// 加载IEnvironmentMonitor.LogSetting.ILogController
-        /// </summary>
-        void Load();
-
-        /// <summary>
         /// 持久化IEnvironmentMonitor.LogSetting
         /// </summary>
         void Save();

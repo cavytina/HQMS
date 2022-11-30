@@ -20,14 +20,14 @@
         <materialDesign:Card Grid.Row="0"
                              Background="{DynamicResource MaterialDesignLightBackground}"
                              Foreground="{DynamicResource MaterialDesignLightForeground}">
-            <ListBox ItemsSource="{Binding PerformanceAssessmentModel.MenuItems}"
-                     Style="{StaticResource MaterialDesignChoiceChipListBox}"
-                     DisplayMemberPath="MenuItemContent"
-                     SelectedValuePath="MenuItemName"
-                     SelectedValue="{Binding PerformanceAssessmentModel.CurrentMenuItemName}">
+            <ListBox ItemsSource="{Binding PerformanceAssessmentModel.Menus}"
+                     Style="{DynamicResource MaterialDesignChoiceChipListBox}"
+                     DisplayMemberPath="MenuContent"
+                     SelectedValuePath="MenuName"
+                     SelectedValue="{Binding PerformanceAssessmentModel.CurrentMenuName}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding MenuItemSelectedChangedCommand}"/>
+                        <i:InvokeCommandAction Command="{Binding MenuSelectedChangedCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ListBox>

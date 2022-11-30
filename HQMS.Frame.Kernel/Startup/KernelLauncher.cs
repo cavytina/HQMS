@@ -29,8 +29,6 @@ namespace HQMS.Frame.Kernel
         ILogManager logManager;
         IDataBaseManager dataBaseManager;
 
-        string relayResponseJsonText;
-
         public KernelLauncher(IContainerProvider containerProviderArgs)
         {
             containerProvider = containerProviderArgs;
@@ -89,8 +87,6 @@ namespace HQMS.Frame.Kernel
 
             Validator<LogManager> logManagerValidator = ValidationFactory.CreateValidator<LogManager>();
             environmentMonitor.ValidationResults.AddAllResults(logManagerValidator.Validate(logManager));
-            if (environmentMonitor.ValidationResults.IsValid)
-                logManager.Load();
 
             dataBaseManager = containerProvider.Resolve<IDataBaseManager>();
             dataBaseManager.Initialize();

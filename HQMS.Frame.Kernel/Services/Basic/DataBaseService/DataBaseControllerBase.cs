@@ -8,6 +8,7 @@ using Prism.Ioc;
 using Dapper;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
+using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Environment;
 
 namespace HQMS.Frame.Kernel.Services
@@ -28,7 +29,7 @@ namespace HQMS.Frame.Kernel.Services
         public DataBaseControllerBase(IContainerProvider containerProviderArgs)
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            logController = environmentMonitor.LogSetting.GetLogController("TextLog");
+            logController = environmentMonitor.LogSetting.GetContent("DataBase");
         }
 
         [SelfValidation]
@@ -46,6 +47,7 @@ namespace HQMS.Frame.Kernel.Services
             {
                 dbConnection.Open();
                 CommandDefinition commandDefinition = new CommandDefinition(queryStingArgs);
+                logController.WriteLog(queryStingArgs);
                 tHub = SqlMapper.Query<T>(dbConnection, commandDefinition).AsList();
                 logController.WriteLog(queryStingArgs);
                 ret = true;

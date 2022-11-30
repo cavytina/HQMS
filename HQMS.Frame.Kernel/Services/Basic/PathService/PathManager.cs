@@ -9,6 +9,7 @@ using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
 using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Environment;
+using HQMS.Frame.Kernel.Extension;
 
 namespace HQMS.Frame.Kernel.Services
 {
@@ -25,10 +26,15 @@ namespace HQMS.Frame.Kernel.Services
         /// </summary>
         string defaultNativeDataBaseFilePath;
 
+        /// <summary>
+        /// 默认日志文件路径
+        /// </summary>
+        string defaultTextLogFilePath;
+
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeController;
 
-        string sqlString;
+        string sqlSentence;
         object retArg;
 
         public PathManager(IContainerProvider containerProviderArgs)
@@ -39,33 +45,47 @@ namespace HQMS.Frame.Kernel.Services
         public void Initialize()
         {
             defaultApplictionCatalogue = AppDomain.CurrentDomain.BaseDirectory;
-            defaultNativeDataBaseFilePath = AppDomain.CurrentDomain.BaseDirectory + AppDomain.CurrentDomain.FriendlyName.Replace("exe", "db");
+            defaultNativeDataBaseFilePath = defaultApplictionCatalogue + AppDomain.CurrentDomain.FriendlyName.Replace("exe", "db");
+            defaultTextLogFilePath = defaultApplictionCatalogue + AppDomain.CurrentDomain.FriendlyName.Replace("exe", "txt");
 
-            if (!environmentMonitor.PathSetting.Contains("ApplictionCatalogue"))
+            if (!environmentMonitor.PathSetting.Exists(x => x.Name == PathPart.ApplictionCatalogue.ToString()))
                 environmentMonitor.PathSetting.Add(new BaseKind
                 {
-                    Code = "01",
-                    Name = "ApplictionCatalogue",
+                    Code = Convert.ToInt32(PathPart.ApplictionCatalogue).ToString().PadLeft(2, '0'),
+                    Name = PathPart.ApplictionCatalogue.ToString(),
                     Content = defaultApplictionCatalogue,
-                    Description = "程序运行目录",
-                    Rank = 1,
+                    Description = EnmuExtension.GetDescription(PathPart.ApplictionCatalogue),
+                    Rank = Convert.ToInt32(PathPart.ApplictionCatalogue),
                     Flag = true
                 });
             else
-                environmentMonitor.PathSetting["ApplictionCatalogue"].Content = defaultApplictionCatalogue;
+                environmentMonitor.PathSetting[PathPart.ApplictionCatalogue.ToString()].Content = defaultApplictionCatalogue;
 
-            if (!environmentMonitor.PathSetting.Contains("NativeDataBaseFilePath"))
+            if (!environmentMonitor.PathSetting.Exists(x => x.Name == PathPart.NativeDataBaseFilePath.ToString()))
                 environmentMonitor.PathSetting.Add(new BaseKind
                 {
-                    Code = "02",
-                    Name = "NativeDataBaseFilePath",
+                    Code = Convert.ToInt32(PathPart.NativeDataBaseFilePath).ToString().PadLeft(2, '0'),
+                    Name = PathPart.NativeDataBaseFilePath.ToString(),
                     Content = defaultNativeDataBaseFilePath,
-                    Description = "本地数据库文件路径",
-                    Rank = 2,
+                    Description = EnmuExtension.GetDescription(PathPart.NativeDataBaseFilePath),
+                    Rank = Convert.ToInt32(PathPart.NativeDataBaseFilePath),
                     Flag = true
                 });
             else
-                environmentMonitor.PathSetting["NativeDataBaseFilePath"].Content = defaultNativeDataBaseFilePath;
+                environmentMonitor.PathSetting[PathPart.NativeDataBaseFilePath.ToString()].Content = defaultNativeDataBaseFilePath;
+
+            if (!environmentMonitor.PathSetting.Exists(x => x.Name == PathPart.TextLogFilePath.ToString()))
+                environmentMonitor.PathSetting.Add(new BaseKind
+                {
+                    Code = Convert.ToInt32(PathPart.TextLogFilePath).ToString().PadLeft(2, '0'),
+                    Name = PathPart.TextLogFilePath.ToString(),
+                    Content = defaultTextLogFilePath,
+                    Description = EnmuExtension.GetDescription(PathPart.NativeDataBaseFilePath),
+                    Rank = Convert.ToInt32(PathPart.TextLogFilePath),
+                    Flag = true
+                });
+            else
+                environmentMonitor.PathSetting[PathPart.NativeDataBaseFilePath.ToString()].Content = defaultNativeDataBaseFilePath;
         }
 
         [SelfValidation]
@@ -77,23 +97,23 @@ namespace HQMS.Frame.Kernel.Services
 
         public void Save()
         {
-            nativeController = environmentMonitor.DataBaseSetting.GetDataBaseController("Native");
+            nativeController = environmentMonitor.DataBaseSetting.GetContent("Native");
 
             if (nativeController != null)
             {
                 foreach (BaseKind pathSetting in environmentMonitor.PathSetting)
                 {
-                    sqlString = "SELECT 1 FROM System_PathSetting WHERE Name='" + pathSetting.Name + "'";
-                    nativeController.ExecuteScalar(sqlString, out retArg);
+                    sqlSentence = "SELECT 1 FROM System_PathSetting WHERE Name='" + pathSetting.Name + "'";
+                    nativeController.ExecuteScalar(sqlSentence, out retArg);
 
                     if (retArg != null)
-                        sqlString = "UPDATE System_PathSetting SET Content='" + pathSetting.Content + "' WHERE Name='" + pathSetting.Name + "'";
+                        sqlSentence = "UPDATE System_PathSetting SET Content='" + pathSetting.Content + "' WHERE Name='" + pathSetting.Name + "'";
                     else
-                        sqlString = "INSERT INTO System_PathSetting (Code,Name,Content,Description,Rank,Flag)" +
+                        sqlSentence = "INSERT INTO System_PathSetting (Code,Name,Content,Description,Rank,Flag)" +
                         " VALUES ('" + pathSetting.Code + "','" + pathSetting.Name + "','" + pathSetting.Content +
                         "','" + pathSetting.Description + "'," + pathSetting.Rank + "," + pathSetting.Flag + ")";
 
-                    nativeController.Execute(sqlString);
+                    nativeController.Execute(sqlSentence);
                 }
             }
         }

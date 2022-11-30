@@ -24,7 +24,7 @@ namespace HQMS.Frame.Service.Peripherals
         {
             containerProvider = containerProviderArgs;
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            bagldbController = environmentMonitor.DataBaseSetting.GetDataBaseController("BAGLDB");
+            bagldbController = environmentMonitor.DataBaseSetting.GetContent("BAGLDB");
         }
 
         public bool Validate(RequestAccountKind accountInfoArgs, out string messageArgs)

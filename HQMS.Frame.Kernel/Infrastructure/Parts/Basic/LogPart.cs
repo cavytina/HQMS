@@ -7,12 +7,12 @@ using System.ComponentModel;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public enum DataBasePart
+    public enum LogPart
     {
-        [Description("本地数据库")]
-        Native = 1,
+        [Description("数据库日志")]
+        DataBase = 1,
 
-        [Description("病案管理数据库")]
-        BAGLDB = 2
+        [Description("服务事件日志")]
+        ServicEvent = 2
     }
 }

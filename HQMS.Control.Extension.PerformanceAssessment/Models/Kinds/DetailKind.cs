@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HQMS.Control.Extension.PerformanceAssessment.Models
 {
-    public class MenuItem
+    public class DetailKind
     {
-        public string MenuItemCode { get; set; }
-        public string MenuItemName { get; set; }
-        public string MenuItemContent { get; set; }
+        public string FREPORTDATESTR { get; set; }
+        public string A48 { get; set; }
+        public string A11 { get; set; }
     }
 }

@@ -8,84 +8,23 @@ using HQMS.Frame.Kernel.Services;
 
 namespace HQMS.Frame.Kernel.Infrastructure
 {
-    public class LogCollecter : IList<LogKind>
+    public class LogCollecter : List<LogKind>, ICollecter<ILogController>
     {
-        IList<LogKind> Logs = new List<LogKind>();
 
-        public bool IsReadOnly => Logs.IsReadOnly;
-
-        public int Count => Logs.Count;
-
-        public LogKind this[int index]
+        /// <summary>
+        /// 获取指定日志目录控制器
+        /// </summary>
+        /// <param name="nameIndex">以字符串形式传入LogPart列举值:DataBase,ServicEvent</param>
+        /// <returns></returns>
+        public ILogController GetContent(string nameIndex)
         {
-            get => Logs[index];
-            set => Logs[index] = value;
+            return Find(x => x.Name == nameIndex).LogController;
         }
 
         public LogKind this[string nameIndex]
         {
-            set { Logs[Logs.IndexOf(Logs.FirstOrDefault(x => x.Name == nameIndex))] = value; }
-            get { return Logs[Logs.IndexOf(Logs.FirstOrDefault(x => x.Name == nameIndex))]; }
-        }
-
-        public ILogController GetLogController(string nameArgs)
-        {
-            return Logs.FirstOrDefault(x => x.Name == nameArgs).LogController;
-        }
-
-        public void Add(LogKind item)
-        {
-            Logs.Add(item);
-        }
-
-        public void Clear()
-        {
-            Logs.Clear();
-        }
-
-        public bool Contains(string nameItem)
-        {
-            return Logs.FirstOrDefault(x => x.Name == nameItem) != null ? true : false;
-        }
-
-        public bool Contains(LogKind Item)
-        {
-            return Logs.Contains(Item);
-        }
-
-        public void CopyTo(LogKind[] array, int arrayIndex)
-        {
-            Logs.CopyTo(array, arrayIndex);
-        }
-
-        public IEnumerator<LogKind> GetEnumerator()
-        {
-            return Logs.GetEnumerator();
-        }
-
-        public bool Remove(LogKind item)
-        {
-            return Logs.Remove(item);
-        }
-
-        public int IndexOf(LogKind item)
-        {
-            return Logs.IndexOf(item);
-        }
-
-        public void Insert(int index, LogKind item)
-        {
-            Logs.Insert(index, item);
-        }
-
-        public void RemoveAt(int index)
-        {
-            Logs.RemoveAt(index);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable)Logs).GetEnumerator();
+            set { base[FindIndex(x => x.Name == nameIndex)] = value; }
+            get { return Find(x => x.Name == nameIndex); }
         }
     }
 }

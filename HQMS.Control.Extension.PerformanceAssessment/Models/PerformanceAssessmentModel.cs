@@ -15,45 +15,47 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
     public class PerformanceAssessmentModel : BindableBase
     {
         IEnvironmentMonitor environmentMonitor;
-        IDataBaseController dataBaseController;
+        IDataBaseController nativeController;
         string sqlStatement;
-        List<BaseKind> menuItemHub;
+        List<BaseKind> menuHub;
 
-        ObservableCollection<MenuItem> menuItems;
-        public ObservableCollection<MenuItem> MenuItems
+        ObservableCollection<MenuKind> menus;
+        public ObservableCollection<MenuKind> Menus
         {
-            get => menuItems;
-            set => SetProperty(ref menuItems, value);
+            get => menus;
+            set => SetProperty(ref menus, value);
         }
 
-        string currentMenuItemName;
-        public string CurrentMenuItemName
+        string currentMenuName;
+        public string CurrentMenuName
         {
-            get => currentMenuItemName;
-            set => SetProperty(ref currentMenuItemName, value);
+            get => currentMenuName;
+            set => SetProperty(ref currentMenuName, value);
         }
 
         public PerformanceAssessmentModel (IContainerProvider containerProviderArgs)
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            dataBaseController = environmentMonitor.DataBaseSetting.GetDataBaseController("Native");
+            nativeController = environmentMonitor.DataBaseSetting.GetContent("Native");
+
+            Menus = new ObservableCollection<MenuKind>();
 
             LoadMenuData();
         }
 
         private void LoadMenuData()
         {
-            MenuItems = new ObservableCollection<MenuItem>();
-            sqlStatement = "SELECT Code,Name,Content,Description,Rank,Flag FROM HQMS_PerformanceAssessment_MenuSetting";
-            if (dataBaseController.Query<BaseKind>(sqlStatement,out menuItemHub))
+            sqlStatement = "SELECT Code,Name,Content,Description,Rank,Flag FROM HQMS_PerformanceAssessment_DictionarySetting WHERE CategoryCode = '01'";
+
+            if (nativeController.Query<BaseKind>(sqlStatement, out menuHub))
             {
-                foreach (BaseKind menuItem in menuItemHub)
+                foreach (BaseKind menu in menuHub)
                 {
-                    MenuItems.Add(new MenuItem
+                    Menus.Add(new MenuKind
                     {
-                        MenuItemCode = menuItem.Code,
-                        MenuItemName = menuItem.Name,
-                        MenuItemContent = menuItem.Content
+                        MenuCode = menu.Code,
+                        MenuName = menu.Name,
+                        MenuContent = menu.Content
                     });
                 }
             }

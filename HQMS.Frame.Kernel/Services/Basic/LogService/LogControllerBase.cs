@@ -9,15 +9,14 @@ using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.EnterpriseLibrary.Logging.TraceListeners;
 using Microsoft.Practices.EnterpriseLibrary.Logging.Formatters;
 using Microsoft.Practices.EnterpriseLibrary.Logging.Filters;
+using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Environment;
 
 namespace HQMS.Frame.Kernel.Services
 {
-    public class TextLogController : ILogController
+    public abstract class LogControllerBase : ILogController
     {
         IEnvironmentMonitor environmentMonitor;
-
-        string textLogFilePath;
         TextFormatter textFormatter;
         FlatFileTraceListener flatFileTraceListener;
         List<TraceListener> traceListeners;
@@ -27,18 +26,21 @@ namespace HQMS.Frame.Kernel.Services
         List<LogSource> logSources;
         LogWriter logWriter;
 
-        public TextLogController(IContainerProvider containerProviderArgs)
+        public virtual string TextLogFilePath { get; set; }
+
+        public LogControllerBase(IContainerProvider containerProviderArgs)
         {
-            environmentMonitor= containerProviderArgs.Resolve<IEnvironmentMonitor>();
+            environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
+        }
 
-            textLogFilePath = environmentMonitor.LogSetting["TextLog"].Content;
-
+        public virtual void Initialize()
+        {
             textFormatter = new TextFormatter("{timestamp(local)}{tab}{message}");
-            flatFileTraceListener = new FlatFileTraceListener(textLogFilePath, null, null, textFormatter);
+            flatFileTraceListener = new FlatFileTraceListener(TextLogFilePath, null, null, textFormatter);
             traceListeners = new List<TraceListener>();
             traceListeners.Add(flatFileTraceListener);
 
-            logEnabledFilter = new LogEnabledFilter("enabledFilter", true);
+            logEnabledFilter = new LogEnabledFilter("EnabledFilter", true);
             logFilters = new List<ILogFilter>();
             logFilters.Add(logEnabledFilter);
 
@@ -50,7 +52,7 @@ namespace HQMS.Frame.Kernel.Services
             logWriter = new LogWriter(logFilters, logSources, ErrorsLogSource, "General");
         }
 
-        public void WriteLog(string MessageArgs)
+        public virtual void WriteLog(string MessageArgs)
         {
             if (environmentMonitor.ValidationResults.IsValid)
             {

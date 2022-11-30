@@ -23,7 +23,7 @@ namespace HQMS.Frame.Kernel.Extension
         public FrameModuleCatalogExtension(IContainerProvider containerProviderArgs)
         {
             environmentMonitor= containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            nativeBaseController = environmentMonitor.DataBaseSetting.GetDataBaseController("Native");
+            nativeBaseController = environmentMonitor.DataBaseSetting.GetContent("Native");
             moduleCatalog = containerProviderArgs.Resolve<IModuleCatalog>();
         }
 

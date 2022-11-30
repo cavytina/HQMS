@@ -14,7 +14,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
     public class DataMappingModel : BindableBase
     {
         IEnvironmentMonitor environmentMonitor;
-        IDataBaseController dataBaseController;
+        IDataBaseController BAGLDBController;
         string sqlStatement;
         object retObj;
         List<CategoryKind> categoryHub;
@@ -81,7 +81,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
         public DataMappingModel (IContainerProvider containerProviderArgs)
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            dataBaseController = environmentMonitor.DataBaseSetting.GetDataBaseController("BAGLDB");
+            BAGLDBController = environmentMonitor.DataBaseSetting.GetContent("BAGLDB");
         }
 
         public bool LoadCategoryData()
@@ -89,7 +89,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
             bool ret = false;
 
             sqlStatement = "select CategoryCode,CategoryName from dbo.TF_HQMS_LoadCategoryInfo('Category','')";
-            if (dataBaseController.Query<CategoryKind>(sqlStatement, out categoryHub))
+            if (BAGLDBController.Query<CategoryKind>(sqlStatement, out categoryHub))
             {
                 Categorys = new ObservableCollection<CategoryKind>(categoryHub);
                 ret = true;
@@ -103,17 +103,17 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
             bool ret = false;
 
             sqlStatement = "select CategoryCode,CategoryName,LocalCode,LocalName from dbo.TF_HQMS_LoadCategoryInfo('Local','" + CurrentCategory.CategoryCode + "')";
-            if (dataBaseController.Query<LocalKind>(sqlStatement,out localHub))
+            if (BAGLDBController.Query<LocalKind>(sqlStatement,out localHub))
             {
                 Locals = new ObservableCollection<LocalKind>(localHub);
 
                 sqlStatement = "select CategoryCode,CategoryName,StandardCode,StandardName from dbo.TF_HQMS_LoadCategoryInfo('Standard','" + CurrentCategory.CategoryCode + "')";
-                if (dataBaseController.Query<StandardKind>(sqlStatement, out standardHub))
+                if (BAGLDBController.Query<StandardKind>(sqlStatement, out standardHub))
                 {
                     Standards = new ObservableCollection<StandardKind>(standardHub);
 
                     sqlStatement = "select CategoryCode,CategoryName,LocalCode,LocalName,StandardCode,StandardName from dbo.TF_HQMS_LoadCategoryInfo('Matched','" + CurrentCategory.CategoryCode + "')";
-                    if (dataBaseController.Query<MatchedKind>(sqlStatement, out matchedHub))
+                    if (BAGLDBController.Query<MatchedKind>(sqlStatement, out matchedHub))
                     {
                         Matcheds = new ObservableCollection<MatchedKind>(matchedHub);
                         ret = true;
@@ -130,7 +130,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
 
             sqlStatement = "exec USP_HQMS_MatchCategoryInfo 'Match','" + CurrentCategory.CategoryCode + "','" + CurrentCategory.CategoryName + "','" +
                             CurrentLocal.LocalCode + "','" + CurrentLocal.LocalName + "','" + CurrentStandard.StandardCode + "','" + CurrentStandard.StandardName + "'";
-            if (dataBaseController.ExecuteScalar(sqlStatement, out retObj))
+            if (BAGLDBController.ExecuteScalar(sqlStatement, out retObj))
             {
                 if (retObj.ToString() == "T")
                 {
@@ -147,7 +147,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
 
             sqlStatement = "exec USP_HQMS_MatchCategoryInfo 'UnMatch','" + CurrentCategory.CategoryCode + "','" + CurrentCategory.CategoryName + "','" +
                             CurrentMatched.LocalCode + "','" + CurrentMatched.LocalName + "','" + CurrentMatched.StandardCode + "','" + CurrentMatched.StandardName + "'";
-            if (dataBaseController.ExecuteScalar(sqlStatement, out retObj))
+            if (BAGLDBController.ExecuteScalar(sqlStatement, out retObj))
             {
                 if (retObj.ToString() == "T")
                 {

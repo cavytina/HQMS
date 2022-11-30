@@ -15,17 +15,17 @@ namespace HQMS.Frame.Kernel.Services
     {
         IEnvironmentMonitor environmentMonitor;
         IDataBaseController nativeDataBaseController;
-        ILogController logController;
+        ILogController servicEventLogController;
 
-        string sqlStatement;
+        string sqlSentence;
         List<BaseKind> serviceEventSettingHub;
 
         public EventServiceController(IContainerProvider containerProviderArgs)
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
 
-            nativeDataBaseController = environmentMonitor.DataBaseSetting.GetDataBaseController("Native");
-            logController = environmentMonitor.LogSetting.GetLogController("TextLog");
+            servicEventLogController = environmentMonitor.LogSetting.GetContent(LogPart.ServicEvent.ToString());
+            nativeDataBaseController = environmentMonitor.DataBaseSetting.GetContent(DataBasePart.Native.ToString());
         }
 
         public string Request(EventServicePart eventServiceArgs, FrameModulePart sourceModuleArgs, FrameModulePart targetModuleArgs, IServiceContent serviceContentArgs)
@@ -33,8 +33,8 @@ namespace HQMS.Frame.Kernel.Services
             string retJsonText = string.Empty;
             string serviceEventCodeText = Convert.ToInt32(eventServiceArgs).ToString().PadLeft(2, '0');
 
-            sqlStatement = "SELECT Code,Name,Content,Description,Rank,Flag FROM System_ServiceEventSetting";
-            if (nativeDataBaseController.Query<BaseKind>(sqlStatement, out serviceEventSettingHub))
+            sqlSentence = "SELECT Code,Name,Content,Description,Rank,Flag FROM System_ServiceEventSetting";
+            if (nativeDataBaseController.Query<BaseKind>(sqlSentence, out serviceEventSettingHub))
             {
                 var serviceEventSettingInfo = from serviceEventSettingInfoHub in serviceEventSettingHub
                                               where serviceEventSettingInfoHub.Flag && serviceEventSettingInfoHub.Code == serviceEventCodeText
@@ -51,7 +51,7 @@ namespace HQMS.Frame.Kernel.Services
                 };
 
                 retJsonText = JsonConvert.SerializeObject(requestService);
-                logController.WriteLog(retJsonText);
+                servicEventLogController.WriteLog(retJsonText);
             }
 
             return retJsonText;
@@ -64,8 +64,8 @@ namespace HQMS.Frame.Kernel.Services
             string retJsonText = string.Empty;
             string serviceEventCodeText = Convert.ToInt32(eventServiceArgs).ToString().PadLeft(2, '0');
 
-            sqlStatement = "SELECT Code,Name,Content,Description,Rank,Flag FROM System_ServiceEventSetting";
-            if (nativeDataBaseController.Query<BaseKind>(sqlStatement, out serviceEventSettingHub))
+            sqlSentence = "SELECT Code,Name,Content,Description,Rank,Flag FROM System_ServiceEventSetting";
+            if (nativeDataBaseController.Query<BaseKind>(sqlSentence, out serviceEventSettingHub))
             {
                 var serviceEventSettingInfo = from serviceEventSettingInfoHub in serviceEventSettingHub
                                               where serviceEventSettingInfoHub.Flag && serviceEventSettingInfoHub.Code == serviceEventCodeText
@@ -84,7 +84,7 @@ namespace HQMS.Frame.Kernel.Services
                 };
 
                 retJsonText = JsonConvert.SerializeObject(responseService);
-                logController.WriteLog(retJsonText);
+                servicEventLogController.WriteLog(retJsonText);
             }
 
             return retJsonText;
