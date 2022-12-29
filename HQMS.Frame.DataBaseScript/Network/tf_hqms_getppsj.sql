@@ -1,8 +1,8 @@
-if OBJECT_ID('TF_HQMS_LoadCategoryInfo','TF') is not null
-drop function TF_HQMS_LoadCategoryInfo
+if OBJECT_ID('tf_hqms_getppsj','TF') is not null
+drop function tf_hqms_getppsj
 go
 
-create function TF_HQMS_LoadCategoryInfo
+create function tf_hqms_getppsj
 (
 	@Type            varchar(10),
 	@CategoryCode    varchar(50)
@@ -24,6 +24,7 @@ if @Type='Category'
 begin
 	insert into @ret (CategoryCode,CategoryName)
 	select distinct FCODE,FDESCRIBE from dbo.TSTANDARDMAIN (nolock)
+	WHERE FHQMSMAP = 1
 end
 else if @Type='Local'
 begin
@@ -31,19 +32,19 @@ begin
 	select a.FCODE,a.FDESCRIBE,b.FBH,b.FMC from TSTANDARDMAIN a (nolock)
 		inner join TSTANDARDMX b (nolock) ON a.FCODE=b.FCODE
 	where a.FCODE = @CategoryCode
-	and not exists (select 1 from T_Map_Mapping x (nolock) where b.FCODE=x.CategoryID AND b.FBH=x.Code_His)
+	and not exists (select 1 from THQMSMAPSET x (nolock) where b.FCODE=x.CategoryID AND b.FBH=x.Code_His)
 end
 else if @Type='Standard'
 begin
 	insert into @ret (CategoryCode,CategoryName,StandardCode,StandardName)
-	select a.CategoryID,a.CategoryName,a.Code,a.Value from T_Map_Standard a (nolock)
+	select a.CategoryID,a.CategoryName,a.Code,a.Value from THQMSSTANDARDSET a (nolock)
 	where a.CategoryID = @CategoryCode
-	and not exists (select 1 from T_Map_Mapping x (nolock) where a.CategoryID=x.CategoryID and a.Code=x.Code_Standard)
+	and not exists (select 1 from THQMSMAPSET x (nolock) where a.CategoryID=x.CategoryID and a.Code=x.Code_Standard)
 end
 else if @Type='Matched'
 begin
 	insert into @ret (CategoryCode,CategoryName,LocalCode,LocalName,StandardCode,StandardName)
-	select CategoryID,CategoryName,Code_His,Value_His,Code_Standard,Value_Standard from T_Map_Mapping (nolock)
+	select CategoryID,CategoryName,Code_His,Value_His,Code_Standard,Value_Standard from THQMSMAPSET (nolock)
 	where CategoryID = @CategoryCode
 end
 

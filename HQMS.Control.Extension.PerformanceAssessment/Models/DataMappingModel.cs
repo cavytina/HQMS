@@ -82,16 +82,21 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
             BAGLDBController = environmentMonitor.DataBaseSetting.GetContent("BAGLDB");
+
+            Categorys = new ObservableCollection<CategoryKind>();
+            Locals = new ObservableCollection<LocalKind>();
+            Standards = new ObservableCollection<StandardKind>();
+            Matcheds = new ObservableCollection<MatchedKind>();
         }
 
         public bool LoadCategoryData()
         {
             bool ret = false;
 
-            sqlStatement = "select CategoryCode,CategoryName from dbo.TF_HQMS_LoadCategoryInfo('Category','')";
+            sqlStatement = "SELECT CategoryCode,CategoryName FROM dbo.tf_hqms_getppsj('Category','')";
             if (BAGLDBController.Query<CategoryKind>(sqlStatement, out categoryHub))
             {
-                Categorys = new ObservableCollection<CategoryKind>(categoryHub);
+                Categorys.AddRange(categoryHub);
                 ret = true;
             }
 
@@ -102,20 +107,20 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
         {
             bool ret = false;
 
-            sqlStatement = "select CategoryCode,CategoryName,LocalCode,LocalName from dbo.TF_HQMS_LoadCategoryInfo('Local','" + CurrentCategory.CategoryCode + "')";
+            sqlStatement = "SELECT CategoryCode,CategoryName,LocalCode,LocalName from dbo.tf_hqms_getppsj('Local','" + CurrentCategory.CategoryCode + "')";
             if (BAGLDBController.Query<LocalKind>(sqlStatement,out localHub))
             {
-                Locals = new ObservableCollection<LocalKind>(localHub);
+                Locals.AddRange(localHub);
 
-                sqlStatement = "select CategoryCode,CategoryName,StandardCode,StandardName from dbo.TF_HQMS_LoadCategoryInfo('Standard','" + CurrentCategory.CategoryCode + "')";
+                sqlStatement = "SELECT CategoryCode,CategoryName,StandardCode,StandardName from dbo.tf_hqms_getppsj('Standard','" + CurrentCategory.CategoryCode + "')";
                 if (BAGLDBController.Query<StandardKind>(sqlStatement, out standardHub))
                 {
-                    Standards = new ObservableCollection<StandardKind>(standardHub);
+                    Standards.AddRange(standardHub);
 
-                    sqlStatement = "select CategoryCode,CategoryName,LocalCode,LocalName,StandardCode,StandardName from dbo.TF_HQMS_LoadCategoryInfo('Matched','" + CurrentCategory.CategoryCode + "')";
+                    sqlStatement = "SELECT CategoryCode,CategoryName,LocalCode,LocalName,StandardCode,StandardName from dbo.tf_hqms_getppsj('Matched','" + CurrentCategory.CategoryCode + "')";
                     if (BAGLDBController.Query<MatchedKind>(sqlStatement, out matchedHub))
                     {
-                        Matcheds = new ObservableCollection<MatchedKind>(matchedHub);
+                        Matcheds.AddRange(matchedHub);
                         ret = true;
                     }
                 }
@@ -128,7 +133,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
         {
             bool ret = false;
 
-            sqlStatement = "exec USP_HQMS_MatchCategoryInfo 'Match','" + CurrentCategory.CategoryCode + "','" + CurrentCategory.CategoryName + "','" +
+            sqlStatement = "exec usp_hqms_getppsj 'Match','" + CurrentCategory.CategoryCode + "','" + CurrentCategory.CategoryName + "','" +
                             CurrentLocal.LocalCode + "','" + CurrentLocal.LocalName + "','" + CurrentStandard.StandardCode + "','" + CurrentStandard.StandardName + "'";
             if (BAGLDBController.ExecuteScalar(sqlStatement, out retObj))
             {
@@ -145,7 +150,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.Models
         {
             bool ret = false;
 
-            sqlStatement = "exec USP_HQMS_MatchCategoryInfo 'UnMatch','" + CurrentCategory.CategoryCode + "','" + CurrentCategory.CategoryName + "','" +
+            sqlStatement = "exec usp_hqms_getppsj 'UnMatch','" + CurrentCategory.CategoryCode + "','" + CurrentCategory.CategoryName + "','" +
                             CurrentMatched.LocalCode + "','" + CurrentMatched.LocalName + "','" + CurrentMatched.StandardCode + "','" + CurrentMatched.StandardName + "'";
             if (BAGLDBController.ExecuteScalar(sqlStatement, out retObj))
             {

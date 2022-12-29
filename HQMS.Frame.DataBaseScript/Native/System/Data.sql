@@ -1,4 +1,11 @@
 /*****************************************************
+System_AuthorizationSetting      程序授权设置
+******************************************************/
+INSERT INTO System_AuthorizationSetting (Code,Name,Content,Description,Rank,Flag)
+SELECT '314595A6-08F8-4047-A365-2684537DC92A','LicenseKey','3E09638219CEBC19','程序验证授权码',1,True
+WHERE NOT EXISTS (SELECT 1 FROM System_AuthorizationSetting WHERE name='LicenseKey')
+
+/*****************************************************
 System_PathSetting      程序路径设置
 ******************************************************/
 INSERT INTO System_PathSetting (Code,Name,Content,Description,Rank,Flag)
@@ -20,12 +27,12 @@ WHERE NOT EXISTS (SELECT 1 FROM System_LogSetting WHERE Code='01')
 System_DataBaseSetting   程序数据库设置
 ******************************************************/
 INSERT INTO System_DataBaseSetting (Code,Name,Content,Description,Rank,Flag)
-SELECT '01','Native','9e1be3076bcd383eddf7ff153f1eb6504157ba8cb94ac7a3c08c3bd54a530cb814083846ef00090aa604ff4af8e15a685e0a6c447877846424d1459b0668807a',
+SELECT '01','Native','ygXZxSoEX3Yqbt9Xpc0g7iLxlWF6rOfl2jFgtFHlWo9caQv222cOHcrVH/7WnVTlM2JLoRYHykgK74DnDPk+XmjopQyMmPP+3s8vz+8F7yWgcXCTGqm0PV6uSm8v8ruVlYUY7enpAGWsUxtaxCIfHA==',
         '本地',1,True
 WHERE NOT EXISTS (SELECT 1 FROM System_DataBaseSetting WHERE Code='01')
 
 INSERT INTO System_DataBaseSetting (Code,Name,Content,Description,Rank,Flag)
-SELECT '02','BAGLDB','2b2b865988ae519bf4f89acfc286b0fabdb416d908e087a4082c230debf31fb37b57605125d472b290d1fba06a2c658bc1a8d200124810a4e802be427179ff89df85fdc671670e4a6c09ae3154399dd171b2c7f657eb7684e27d8955f231832e',
+SELECT '02','BAGLDB','0/E0Mtl32slVw8LaAD3yPkisBX0b9SmzNmg/Ii3iYSJAuwv/UDWzoHWE3qP81uspvl3K6r8tymujeg8UK/a7Zw==',
         '病案管理',2,True
 WHERE NOT EXISTS (SELECT 1 FROM System_DataBaseSetting WHERE Code='02')
 

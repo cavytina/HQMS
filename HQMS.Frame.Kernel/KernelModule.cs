@@ -30,7 +30,7 @@ namespace HQMS.Frame.Kernel
 
             containerRegistryArgs.Register<IDataBaseController, NativeBaseController>(DataBasePart.Native.ToString());
             containerRegistryArgs.Register<IDataBaseController, BAGLDBController>(DataBasePart.BAGLDB.ToString());
-            containerRegistryArgs.Register<ICipherController, SMController>();
+            containerRegistryArgs.Register<ISecurityController, SecurityController>();
 
             containerRegistryArgs.Register<IPathManager, PathManager>();
             containerRegistryArgs.Register<ILogManager, LogManager>();

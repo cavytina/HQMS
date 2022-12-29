@@ -39,9 +39,15 @@
   <ItemGroup>
     <Content Include="Native\System\Data.sql" />
     <Content Include="Native\System\Structure.sql" />
-    <Content Include="Network\Function.sql" />
-    <Content Include="Network\Procedure.sql" />
-    <Content Include="Network\Table.sql" />
+    <Content Include="Network\Script.sql" />
+    <Content Include="Network\tf_hqms_getppsj.sql" />
+    <Content Include="Network\THQMSDETAILSET.sql" />
+    <Content Include="Network\THQMSMAPSET.sql" />
+    <Content Include="Network\THQMSMASTERSET.sql" />
+    <Content Include="Network\THQMSSTANDARDSET.sql" />
+    <Content Include="Network\usp_hqms_getbasj.sql" />
+    <Content Include="Network\usp_hqms_getppsj.sql" />
+    <Content Include="Network\usp_hqms_gettjsj.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HQMS.db">

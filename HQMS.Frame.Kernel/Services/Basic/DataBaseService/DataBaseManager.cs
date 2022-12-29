@@ -13,7 +13,7 @@ namespace HQMS.Frame.Kernel.Services
     {
         IContainerProvider containerProvider;
         IEnvironmentMonitor environmentMonitor;
-        ICipherController cipherController;
+        ISecurityController securityController;
         IDataBaseController nativeBaseController;
         IDataBaseController baglDBController;
 
@@ -27,7 +27,7 @@ namespace HQMS.Frame.Kernel.Services
         {
             containerProvider = containerProviderArgs;
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
-            cipherController = containerProviderArgs.Resolve<ICipherController>();
+            securityController = containerProviderArgs.Resolve<ISecurityController>();
         }
 
         public void Initialize()
@@ -41,7 +41,7 @@ namespace HQMS.Frame.Kernel.Services
                              where baglDBHub.Flag && baglDBHub.Name== "BAGLDB"
                              select baglDBHub;
 
-            baglDBConnectionString = cipherController.Decrypt(baglDBInfo.FirstOrDefault().Content);
+            baglDBConnectionString = securityController.DataBaseConnectionStringDecrypt(baglDBInfo.FirstOrDefault().Content);
         }
 
         private void InnerLoad()
@@ -86,8 +86,8 @@ namespace HQMS.Frame.Kernel.Services
 
         public void Save()
         {
-            sqliteCipherConnectionString = cipherController.Encrypt(sqliteConnectionString);
-            baglDBCipherConnectionString = cipherController.Encrypt(baglDBConnectionString);
+            sqliteCipherConnectionString = securityController.DataBaseConnectionStringEncrypt(sqliteConnectionString);
+            baglDBCipherConnectionString = securityController.DataBaseConnectionStringEncrypt(baglDBConnectionString);
 
             sqlString = "UPDATE System_DataBaseSetting SET Content='"+ sqliteCipherConnectionString+ "' WHERE Name='Native'";
             nativeBaseController.Execute(sqlString);

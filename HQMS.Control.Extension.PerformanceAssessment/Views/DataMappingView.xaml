@@ -49,12 +49,12 @@
             <Button Margin="16 0 0 0"
                     Style="{DynamicResource MaterialDesignOutlinedLightButton}"
                     Content="匹配"
-                    Command="{Binding MatchedCommand}"/>
+                    Command="{Binding MatchCommand}"/>
 
             <Button Margin="16 0 0 0"
                     Style="{DynamicResource MaterialDesignOutlinedLightButton}"
                     Content="取消匹配"
-                    Command="{Binding CancelMatchedCommand}"/>
+                    Command="{Binding CancelMatchCommand}"/>
         </StackPanel>
 
         <GroupBox Grid.Row="1"

@@ -26,6 +26,8 @@ namespace HQMS.Frame.Kernel.Services
             set => dbConnection = value;
         }
 
+        IDataReader reader;
+
         public DataBaseControllerBase(IContainerProvider containerProviderArgs)
         {
             environmentMonitor = containerProviderArgs.Resolve<IEnvironmentMonitor>();
@@ -38,20 +40,71 @@ namespace HQMS.Frame.Kernel.Services
 
         }
 
-        public virtual bool Query<T>(string queryStingArgs, out List<T> tHub)
+        public virtual bool Query<T>(string queryStringArg, out List<T> tHub)
         {
             bool ret = false;
             tHub = default(List<T>);
 
             if (environmentMonitor.ValidationResults.IsValid)
             {
-                dbConnection.Open();
-                CommandDefinition commandDefinition = new CommandDefinition(queryStingArgs);
-                logController.WriteLog(queryStingArgs);
-                tHub = SqlMapper.Query<T>(dbConnection, commandDefinition).AsList();
-                logController.WriteLog(queryStingArgs);
-                ret = true;
-                dbConnection.Close();
+                CommandDefinition commandDefinition = new CommandDefinition(queryStringArg);
+
+                try
+                {
+                    dbConnection.Open();
+                    tHub = SqlMapper.Query<T>(dbConnection, commandDefinition).AsList();
+                }
+                catch (Exception ex)
+                {
+                    logController.WriteLog(ex.Message);
+                }
+                finally
+                {
+                    ret = true;
+                    logController.WriteLog(queryStringArg);
+                    dbConnection.Close();
+                }
+            }
+
+            return ret;
+        }
+
+        public virtual bool QueryWithMessage<T>(string queryStringArg, out List<T> tHub, out string retStringArg)
+        {
+            bool ret = false;
+            tHub = default(List<T>);
+            retStringArg = string.Empty;
+
+            if (environmentMonitor.ValidationResults.IsValid)
+            {
+                CommandDefinition commandDefinition = new CommandDefinition(queryStringArg);
+
+                try
+                {
+                    dbConnection.Open();
+                    reader = SqlMapper.ExecuteReader(dbConnection, commandDefinition);
+                    reader.Read();
+                    if (reader.GetString(0) == "F")
+                        retStringArg = reader.GetString(1);
+                    else
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                            tHub = SqlMapper.Query<T>(dbConnection, commandDefinition).AsList();
+                            ret = true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logController.WriteLog(ex.Message);
+                }
+                finally
+                {
+                    logController.WriteLog(queryStringArg);
+                    dbConnection.Close();
+                }
             }
 
             return ret;
@@ -63,12 +116,62 @@ namespace HQMS.Frame.Kernel.Services
 
             if (environmentMonitor.ValidationResults.IsValid)
             {
-                dbConnection.Open();
+                CommandDefinition commandDefinition;
+                int retVal = 0;
+
+                try
+                {
+                    dbConnection.Open();
+                    commandDefinition = new CommandDefinition(execStingArgs);
+                    retVal = SqlMapper.Execute(dbConnection, commandDefinition);
+                }
+                catch (Exception ex)
+                {
+                    logController.WriteLog(ex.Message);
+                }
+                finally
+                {
+                    ret = true;
+
+                    if (retVal == 0)
+                        logController.WriteLog("未影响: " + execStingArgs);
+                    else
+                        logController.WriteLog(execStingArgs);
+
+                    dbConnection.Close();
+                }
+            }
+
+            return ret;
+        }
+
+        public virtual bool ExecuteWithMessage(string execStingArgs, out string retStringArg)
+        {
+            bool ret = false;
+            retStringArg = string.Empty;
+
+            if (environmentMonitor.ValidationResults.IsValid)
+            {
                 CommandDefinition commandDefinition = new CommandDefinition(execStingArgs);
-                int retVal = SqlMapper.Execute(dbConnection, commandDefinition);
-                logController.WriteLog(execStingArgs);
-                ret = true;
-                dbConnection.Close();
+
+                try
+                {
+                    dbConnection.Open();
+                    reader = SqlMapper.ExecuteReader(dbConnection, commandDefinition);
+                    reader.Read();
+                    retStringArg = reader.GetString(1);
+                    if (reader.GetString(0) == "T")
+                        ret = true;
+                }
+                catch (Exception ex)
+                {
+                    logController.WriteLog(ex.Message);
+                }
+                finally
+                {
+                    logController.WriteLog(execStingArgs);
+                    dbConnection.Close();
+                }
             }
 
             return ret;

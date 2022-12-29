@@ -11,10 +11,11 @@ using Newtonsoft.Json.Linq;
 using HQMS.Frame.Kernel.Infrastructure;
 using HQMS.Frame.Kernel.Events;
 using HQMS.Frame.Kernel.Services;
+using System.Windows;
 
 namespace HQMS.Frame.Control.Login.Models
 {
-    public class ContentModel : BindableBase
+    public class LoginContentModel : BindableBase
     {
         IEventAggregator eventAggregator;
         IEventServiceController EventServiceController;
@@ -42,16 +43,16 @@ namespace HQMS.Frame.Control.Login.Models
             set => SetProperty(ref password, value);
         }
 
-        public ContentModel(IContainerProvider containerProviderArgs)
+        public LoginContentModel(IContainerProvider containerProviderArgs)
         {
             eventAggregator = containerProviderArgs.Resolve<IEventAggregator>();
             EventServiceController = containerProviderArgs.Resolve<IEventServiceController>();
+
+            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountAuthenticationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountAuthenticationService"));
         }
 
         public bool IsLoginSucceed()
         {
-            ret = false;
-
             RequestAccountKind accountInfo = new RequestAccountKind
             {
                 Account = Account,
@@ -60,9 +61,7 @@ namespace HQMS.Frame.Control.Login.Models
 
             requestJsonText = EventServiceController.Request(EventServicePart.AccountAuthenticationService, FrameModulePart.LoginModule, FrameModulePart.ServiceModule, accountInfo);
 
-            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestJsonText);
-
-            eventAggregator.GetEvent<ResponseServiceEvent>().Subscribe(OnAccountAuthenticationResponseService, ThreadOption.PublisherThread, false, x => x.Contains("AccountAuthenticationService"));
+            eventAggregator.GetEvent<RequestServiceEvent>().Publish(requestJsonText);      
 
             return ret;
         }

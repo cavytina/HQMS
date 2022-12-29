@@ -6,10 +6,15 @@
              xmlns:local="clr-namespace:HQMS.Control.Extension.PerformanceAssessment.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mdc="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
              xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <mdc:NotZeroConverter x:Key="bitToBoolenConverter"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,7 +24,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0"
@@ -52,6 +57,16 @@
                     Style="{DynamicResource MaterialDesignOutlinedLightButton}"
                     Content="显示明细"
                     Command="{Binding DetailCommand}"/>
+
+            <Button Margin="32 0 0 0"
+                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    Content="汇总导出"
+                    Command="{Binding MasterExportCommand}"/>
+
+            <Button Margin="32 0 0 0"
+                    Style="{DynamicResource MaterialDesignOutlinedLightButton}"
+                    Content="明细导出"
+                    Command="{Binding DetailExportCommand}"/>
         </StackPanel>
 
         <ListView Grid.Row="1"
@@ -60,24 +75,29 @@
                   SelectedValue="{Binding DataExportingModel.CurrentMaster}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="代码"
-                                    DisplayMemberBinding="{Binding code}"/>
+                    <GridViewColumn Header="年月"
+                                    DisplayMemberBinding="{Binding FREPORTDATESTR}"/>
+                    <GridViewColumn Header="类别"
+                                    DisplayMemberBinding="{Binding FCODE}"/>
                     <GridViewColumn Header="项目"
-                                    DisplayMemberBinding="{Binding name}"/>
-                    <GridViewColumn Header="值"
-                                    DisplayMemberBinding="{Binding value}">
+                                    DisplayMemberBinding="{Binding FNAME}"/>
+                    <GridViewColumn Header="内容">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
+                                <TextBlock x:Name="ContentText" 
+                                           Text="{Binding FCONTENT}" 
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"/>
+
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding=""  Value=""
+                                    <DataTrigger Binding="{Binding FEXTEND,Converter={StaticResource bitToBoolenConverter}}" Value="True">
+                                        <Setter TargetName="ContentText" Property="Foreground" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                    </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="类别"
-                                    DisplayMemberBinding="{Binding category}"/>
-                    <GridViewColumn Header="是否显示"
-                                    DisplayMemberBinding="{Binding isextend}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -89,5 +109,56 @@
                 <RotateTransform Angle="90"/>
             </Separator.LayoutTransform>
         </Separator>
+
+        <ListView Grid.Row="1"
+                  Grid.Column="2"
+                  ItemsSource="{Binding DataExportingModel.Details}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="年月"
+                                    DisplayMemberBinding="{Binding FREPORTDATESTR}"/>
+                    <GridViewColumn Header="住院号"
+                                    DisplayMemberBinding="{Binding A48}"/>
+                    <GridViewColumn Header="姓名"
+                                    DisplayMemberBinding="{Binding A11}"/>
+                    <GridViewColumn Header="年龄（岁）"
+                                    DisplayMemberBinding="{Binding A14}"/>
+                    <GridViewColumn Header="入院时间"
+                                    DisplayMemberBinding="{Binding B12}"/>
+                    <GridViewColumn Header="出院时间"
+                                    DisplayMemberBinding="{Binding B15}"/>
+                    <GridViewColumn Header="实际住院（天）"
+                                    DisplayMemberBinding="{Binding B20}"/>
+                    <GridViewColumn Header="出院主要诊断编码"
+                                    DisplayMemberBinding="{Binding C03C}"/>
+                    <GridViewColumn Header="出院主要诊断名称"
+                                    DisplayMemberBinding="{Binding C04N}"/>
+                    <GridViewColumn Header="主要手术操作编码"
+                                    DisplayMemberBinding="{Binding C14x01C}"/>
+                    <GridViewColumn Header="主要手术操作名称"
+                                    DisplayMemberBinding="{Binding C15x01N}"/>
+                    <GridViewColumn Header="主要手术操作日期"
+                                    DisplayMemberBinding="{Binding C16x01}"/>
+                    <GridViewColumn Header="主要手术操作级别"
+                                    DisplayMemberBinding="{Binding C17x01}"/>
+                    <GridViewColumn Header="主要手术操作术者"
+                                    DisplayMemberBinding="{Binding C18x01}"/>
+                    <GridViewColumn Header="主要手术操作切口愈合等级"
+                                    DisplayMemberBinding="{Binding C21x01C}"/>
+                    <GridViewColumn Header="主要手术操作麻醉方式"
+                                    DisplayMemberBinding="{Binding C22x01C}"/>
+                    <GridViewColumn Header="入院科别"
+                                    DisplayMemberBinding="{Binding B13C}"/>
+                    <GridViewColumn Header="出院科别"
+                                    DisplayMemberBinding="{Binding B16C}"/>
+                    <GridViewColumn Header="离院方式"
+                                    DisplayMemberBinding="{Binding B34C}"/>
+                    <GridViewColumn Header="住院总费用"
+                                    DisplayMemberBinding="{Binding D01}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>

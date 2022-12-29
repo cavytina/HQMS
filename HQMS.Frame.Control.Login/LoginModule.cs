@@ -16,14 +16,14 @@ namespace HQMS.Frame.Control.Login
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion("LoginHeaderRegion", typeof(HeaderView));
-            regionManager.RegisterViewWithRegion("LoginContentRegion", typeof(ContentView));
+            regionManager.RegisterViewWithRegion("LoginHeaderRegion", typeof(LoginHeaderView));
+            regionManager.RegisterViewWithRegion("LoginContentRegion", typeof(LoginContentView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ContentView, ContentViewModel>();
-            containerRegistry.RegisterForNavigation<ConfigView, ConfigViewModel>();
+            containerRegistry.RegisterForNavigation<LoginContentView, LoginContentViewModel>();
+            containerRegistry.RegisterForNavigation<LoginConfigView, LoginConfigViewModel>();
         }
     }
 }

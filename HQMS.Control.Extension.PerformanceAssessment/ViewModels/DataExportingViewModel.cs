@@ -24,6 +24,8 @@ namespace HQMS.Control.Extension.PerformanceAssessment.ViewModels
 
         public DelegateCommand MasterCommand { get; private set; }
         public DelegateCommand DetailCommand { get; private set; }
+        public DelegateCommand MasterExportCommand { get; private set; }
+        public DelegateCommand DetailExportCommand { get; private set; }
 
         public DataExportingViewModel(IContainerProvider containerProviderArgs)
         {
@@ -32,6 +34,18 @@ namespace HQMS.Control.Extension.PerformanceAssessment.ViewModels
 
             MasterCommand = new DelegateCommand(OnMaster);
             DetailCommand = new DelegateCommand(OnDetail);
+            MasterExportCommand = new DelegateCommand(OnMasterExport);
+            DetailExportCommand = new DelegateCommand(OnDetailExport);
+        }
+
+        private void OnMasterExport()
+        {
+            DataExportingModel.ExprotMasterData();
+        }
+
+        private void OnDetailExport()
+        {
+            DataExportingModel.ExprotDetailData();
         }
 
         private void OnMaster()

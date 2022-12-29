@@ -25,8 +25,8 @@ namespace HQMS.Control.Extension.PerformanceAssessment.ViewModels
         public DelegateCommand WindowLoadedCommand { get; private set; }
         public DelegateCommand CategorySelectionChangedCommand { get; private set; }
 
-        public DelegateCommand MatchedCommand { get; private set; }
-        public DelegateCommand CancelMatchedCommand { get; private set; }
+        public DelegateCommand MatchCommand { get; private set; }
+        public DelegateCommand CancelMatchCommand { get; private set; }
 
         public DataMappingViewModel(IContainerProvider containerProviderArgs)
         {
@@ -36,11 +36,11 @@ namespace HQMS.Control.Extension.PerformanceAssessment.ViewModels
 
             WindowLoadedCommand = new DelegateCommand(OnWindowLoaded);
             CategorySelectionChangedCommand = new DelegateCommand(OnCategorySelectionChanged);
-            MatchedCommand = new DelegateCommand(OnMatched);
-            CancelMatchedCommand = new DelegateCommand(OnCancelMatched);
+            MatchCommand = new DelegateCommand(OnMatch);
+            CancelMatchCommand = new DelegateCommand(OnCancelMatch);
         }
 
-        private void OnCancelMatched()
+        private void OnCancelMatch()
         {
             if (DataMappingModel.CurrentMatched==null)
                 messageQueue.Enqueue("请选择已匹配数据!");
@@ -55,7 +55,7 @@ namespace HQMS.Control.Extension.PerformanceAssessment.ViewModels
             DataMappingModel.RefreshCategoryData();
         }
 
-        private void OnMatched()
+        private void OnMatch()
         {
             if (DataMappingModel.CurrentLocal == null)
                 messageQueue.Enqueue("请选择本地数据!");

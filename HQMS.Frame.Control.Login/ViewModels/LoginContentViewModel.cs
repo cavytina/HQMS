@@ -12,22 +12,22 @@ using HQMS.Frame.Control.Login.Models;
 
 namespace HQMS.Frame.Control.Login.ViewModels
 {
-    public class ContentViewModel : BindableBase
+    public class LoginContentViewModel : BindableBase
     {
         ISnackbarMessageQueue messageQueue;
 
-        ContentModel contentModel;
-        public ContentModel ContentModel
+        LoginContentModel loginContentModel;
+        public LoginContentModel LoginContentModel
         {
-            get => contentModel;
-            set => SetProperty(ref contentModel, value);
+            get => loginContentModel;
+            set => SetProperty(ref loginContentModel, value);
         }
 
         public DelegateCommand<object> LoginCommand { get; private set; }
 
-        public ContentViewModel(IContainerProvider containerProviderArgs)
+        public LoginContentViewModel(IContainerProvider containerProviderArgs)
         {
-            ContentModel = new ContentModel(containerProviderArgs);
+            LoginContentModel = new LoginContentModel(containerProviderArgs);
 
             messageQueue = containerProviderArgs.Resolve<ISnackbarMessageQueue>();
 
@@ -36,12 +36,12 @@ namespace HQMS.Frame.Control.Login.ViewModels
 
         private void OnLogin(object obj)
         {
-            if (!ContentModel.IsLoginSucceed())
+            if (!LoginContentModel.IsLoginSucceed())
                 messageQueue.Enqueue("登录失败!");
             else
             {
                 SystemCommands.CloseWindow(obj as Window);
-                ContentModel.NavigateToMainWindow();
+                LoginContentModel.NavigateToMainWindow();
             }
 
         }

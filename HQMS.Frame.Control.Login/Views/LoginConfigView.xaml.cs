@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace HQMS.Frame.Control.Login.Views
 {
     /// <summary>
-    /// HeaderView.xaml 的交互逻辑
+    /// LoginConfigView.xaml 的交互逻辑
     /// </summary>
-    public partial class HeaderView : UserControl
+    public partial class LoginConfigView : UserControl
     {
-        public HeaderView()
+        public LoginConfigView()
         {
             InitializeComponent();
         }

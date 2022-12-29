@@ -9,11 +9,12 @@ using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Commands;
 using Prism.Regions;
+using MaterialDesignThemes.Wpf;
 using MaterialDesignExtensions.Controls;
 
 namespace HQMS.Frame.Control.Login.ViewModels
 {
-    public class HeaderViewModel : BindableBase
+    public class LoginHeaderViewModel : BindableBase
     {
         IRegionManager regionManager;
         Timer timer;
@@ -31,7 +32,7 @@ namespace HQMS.Frame.Control.Login.ViewModels
         public DelegateCommand<object> MinimizeWindowCommand { get; private set; }
         public DelegateCommand<object> CloseWindowCommand { get; private set; }
 
-        public HeaderViewModel(IContainerProvider containerProviderArgs)
+        public LoginHeaderViewModel(IContainerProvider containerProviderArgs)
         {
             regionManager = containerProviderArgs.Resolve<IRegionManager>();
 
